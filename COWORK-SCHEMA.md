@@ -2,9 +2,9 @@
 
 **Status:** v2, updated 2026-05-27 to reflect implementation through Pass E (2026-05-27, shipped per DEC-0042). Graph DB live and operational. Original v1 drafted 2026-05-05.
 
-**Pass history:** Pass A = pilot population + retrieval test (2026-05-06); Pass B = SUPERSEDES extractor + DEC-0035 (2026-05-18); Pass C = wiki_page node type + DEC-0033 (2026-05-19); Pass D = library_source node type + DEC-0036 (2026-05-19); Pass E = action_item + resolution_note + wiki projects subdir + dash filename convention (2026-05-27 / DEC-0042).
+**Pass history:** Pass A = pilot population + retrieval test (2026-05-06); Pass B = SUPERSEDES extractor + DEC-0035 (2026-05-18); Pass C = wiki_page node type + DEC-0033 (2026-05-19); Pass D = library_source node type + DEC-0036 (2026-05-19); Pass E = action_item + resolution_note + wiki projects subdir + dash filename convention (2026-05-27 / DEC-0042); Pass F = `wiki_scope` dual-scope indexing (The_Wiki commons + private) with scope-qualified ids + `DISTILLS` edge, and `library_source` re-axised to subject collections (`collection` + `genre` + optional `work`, one-level walk) (2026-06-12 / DEC-0062).
 
-**Scope:** Cowork-me's per-agent graph DB. Indexes Cowork-me's own canonical files (`~/Claude/*` + `~/Documents/Claude/*` + `~/Documents/Projects/cowork-evolution/*`). Excludes Alfred's domain (`~/.openclaw/*`, `~/Documents/Alfred/*`, `~/Documents/Projects/alfred-evolution/*`) per cross-actor scope decision (DEC-0023). Plus shared raw sources at `~/Documents/Library/` (per DEC-0036 / Pass D — see node type 13 below). Storage at `~/Claude/memory/graph/cowork-me.db`. **14 node types shipped** (Pass D added `library_source` as #13; Pass E added `resolution_note` as #14 and renamed `open_item` → `action_item`). *Project-doc paths updated 2026-05-28 per DEC-0050 / CLD-00015.*
+**Scope:** Cowork-me's per-agent graph DB. Indexes Cowork-me's own canonical files (`~/Claude/*` + `~/Documents/Claude/*` + `~/Documents/Projects/cowork-evolution/*`). Excludes Alfred's domain (`~/.openclaw/*`, `~/Documents/Alfred/*`, `~/Documents/Projects/alfred-evolution/*`) per cross-actor scope decision (DEC-0023). Plus the **shared knowledge commons** as named cross-actor read carve-outs (DEC-0061): the wiki commons at `~/Documents/The_Wiki/` (indexed as `wiki_page` with `wiki_scope='commons'`) and raw sources at `~/Documents/The_Library/` (per DEC-0036 / DEC-0062 — see node type 13 below). Storage at `~/Claude/memory/graph/cowork-me.db`. **14 node types shipped** (Pass D added `library_source` as #13; Pass E added `resolution_note` as #14 and renamed `open_item` → `action_item`). *Project-doc paths updated 2026-05-28 per DEC-0050 / CLD-00015.*
 
 **Companion docs:** [DEC-0001 through DEC-0025](~/Documents/Claude/COWORK-DECISIONS.md) (nav stub → `~/Claude/memory/decisions/COWORK-DECISIONS-YYYY.md`) for chronological decision history; [COWORK-ROADMAP.md](COWORK-ROADMAP.md) Stage 2 for context.
 
@@ -302,13 +302,16 @@ The projects index. Pilot has one entry; multi-project future has more.
 
 ### 12. `wiki_page` (embedded)
 
-The curated knowledge-memory primitive from DEC-0032/DEC-0033. One unified node type spanning all five wiki subdirectories with `subdir` as a discriminator column rather than five separate node types. Per DEC-0033: vector accuracy is content-determined not type-determined; cross-subdir retrieval is the dominant synthesis-query pattern; schema-extension cost compounds linearly with type count per ALF-037 so unified-with-discriminator is the right shape.
+The curated knowledge-memory primitive from DEC-0032/DEC-0033. One unified node type spanning all six wiki subdirectories with `subdir` as a discriminator column rather than separate node types. Per DEC-0033: vector accuracy is content-determined not type-determined; cross-subdir retrieval is the dominant synthesis-query pattern; schema-extension cost compounds linearly with type count per ALF-037 so unified-with-discriminator is the right shape.
+
+**Dual-scope indexing (DEC-0062).** Two wikis are indexed under one node type, distinguished by a `wiki_scope` discriminator: the shared **commons** at `~/Documents/The_Wiki/` (DEC-0061) and Cowork-me's **private** wiki at `~/Claude/memory/wiki/`. The node `id` is **scope-qualified** (`<scope>:<subdir>/<slug>`) so a commons page and its private per-agent digest at the same slug are **distinct nodes** — without this, the distill-and-backpointer pattern (a private digest mirroring a commons page) would collide on a single id. Per-agent digest pages (private scope) carry `canonical` / `canonical_updated` backpointers that drive the `DISTILLS` edge and the staleness check (DEC-0062, the collision fix).
 
 | Field | Type | Notes |
 |---|---|---|
-| `id` | TEXT PK | compound `<subdir>/<slug>` (e.g., `concept/three-layer-architecture`) |
-| `slug` | TEXT | filename without `.md`; unique within a subdir but `see_also` / `supersedes` references use the bare slug across subdirs |
+| `id` | TEXT PK | scope-qualified `<scope>:<subdir>/<slug>` (e.g., `commons:concept/three-layer-architecture`, `private:concept/three-layer-architecture`) |
+| `slug` | TEXT | filename without `.md`; `see_also` / `supersedes` references use the bare slug, resolved **within the same `wiki_scope`** |
 | `subdir` | TEXT | one of `{concept, person, entity, system, source, project}` — `project` added Pass E for project-level notes wiki pages |
+| `wiki_scope` | TEXT | `commons` (The_Wiki) or `private` (this agent's own wiki) — DEC-0062 collision discriminator |
 | `title` | TEXT | from frontmatter `title:` (required) |
 | `type` | TEXT | from frontmatter `type:` — should match `subdir` semantically; stored separately for lint-checkability |
 | `created` | TEXT | YYYY-MM-DD from frontmatter (required) |
@@ -322,21 +325,24 @@ The curated knowledge-memory primitive from DEC-0032/DEC-0033. One unified node 
 | `source_date` | TEXT, nullable | sources-subdir only |
 | `retrieved_date` | TEXT, nullable | sources-subdir only |
 | `credibility` | TEXT, nullable | sources-subdir only (`high` / `medium` / `low`) |
+| `canonical` | TEXT, nullable | **private digests only** (DEC-0062): `<category>/<slug>.md` backpointer to the commons page; drives `DISTILLS`. Forbidden on commons pages (lint rule 1). |
+| `canonical_updated` | TEXT, nullable | **private digests only**: the commons page's `updated:` at distill time — the staleness pin (compare against the commons page's current `updated`) |
 | `body` | TEXT | post-frontmatter content of the page |
 | `project_id` | TEXT, always null | Cowork-me-internal; cross-project by design |
 | ...common fields | | |
 
 `wiki_page_vec`: 768-d embedding of `title + "\n" + structured frontmatter line(s) + "\n" + body` via nomic-embed-text. Combined-text-input pattern per DEC-0033 captures both the semantic gist (title + body) and the categorical signals (subdir, type, tags, aliases, see_also) so callers can disambiguate by content + by category. **Section-splitting for >8K-token pages:** none of the 13 current wiki pages approach that threshold, so the existing `EMBED_MAX_CHARS = 8000` truncation cap in `populate.py:_embed_into` (and `refresh.py:_upsert_vec`) is the operational fallback today; a `## ` heading split-and-embed should be added if/when a real wiki page first exceeds the threshold. Tracked as a TODO inline in `populate.py:_wiki_embed_input`.
 
-**Source:** `~/Claude/memory/wiki/<subdir>/<slug>.md` across the six subdirectories listed above. **`~/Claude/memory/wiki/memory-schema.md` is the wiki's schema file (its CLAUDE.md equivalent), not a content page — excluded from indexing.** No other exclusions; future per-page exemption would surface through `memory-schema.md` lint rules.
+**Source (DEC-0062, two roots):** `~/Documents/The_Wiki/<subdir>/<slug>.md` (`wiki_scope='commons'`) and `~/Claude/memory/wiki/<subdir>/<slug>.md` (`wiki_scope='private'`), across the six subdirectories listed above. The commons read scope is a named cross-actor carve-out (DEC-0061), parallel to `library_source` over `~/Documents/The_Library/`. **`~/Claude/memory/wiki/memory-schema.md` (the private wiki's schema file) and `*.talk.md` companion files are excluded from indexing.** A new commons collection/subdir needs no code change beyond the fixed subdir vocabulary.
 
 **`projects/` subdir (Pass E).** Added to support project-level notes wiki pages. Each project gets one wiki page at `~/Claude/memory/wiki/projects/<project-slug>.md` capturing project context, goals, and running notes — the "what is this project and why does it exist" narrative (distinct from action-items tracking). `memory-schema.md` needs a `project` type entry added per Pass E. The `projects/` subdir name maps to `subdir = 'project'` (singular, matching the other subdir-name→value convention).
 
 **Edge mappings from `wiki_page` nodes:**
 
-- `see_also` slugs → `RELATES_TO` edges. Direction: from this page → target page. Target resolved by unique slug lookup across all subdirs (slug collisions across subdirs are ambiguous and warn-skip; the current corpus has zero collisions). Forward references (target not yet in DB) are warn-and-skipped at edge-emission time without breaking the build.
-- `supersedes` slugs → `SUPERSEDES` edges. Same direction convention as DEC-0035 (newer page does the superseding, edge points at the older target). Edge properties include `superseded_date` (the superseding page's `updated` frontmatter date) and `source: "supersedes_frontmatter"`.
-- `CITES` edges for `sources/` pages → `library_source` nodes: **deferred pending library landing (ALF-035 item (b)).** Library node type not yet defined; emission will land once the library tree + `library_source` node type are in place. Noted here so the integration point is explicit, not implementation-debt-hidden.
+- `see_also` slugs → `RELATES_TO` edges. Direction: from this page → target page. Target resolved by unique slug lookup **within the from-page's `wiki_scope`** (DEC-0062 — scope-local, so the same slug existing in both scopes is no longer ambiguous). Forward references (target not yet in DB) are warn-and-skipped at edge-emission time without breaking the build.
+- `supersedes` slugs → `SUPERSEDES` edges (scope-local resolution, same as `see_also`). Same direction convention as DEC-0035 (newer page does the superseding, edge points at the older target). Edge properties include `superseded_date` (the superseding page's `updated` frontmatter date) and `source: "supersedes_frontmatter"`.
+- `canonical` backpointer → `DISTILLS` edges (**DEC-0062**): from a private per-agent digest → its commons canonical page (`<scope-stripped category>/<slug>.md` mapped to `commons:<subdir>/<slug>`). Edge property `canonical_updated` carries the digest's staleness pin, so the staleness check (`canonical_updated` vs the commons page's current `updated`) runs in-graph. Missing-target digests warn-and-skip via the `wiki_canonical_unresolved` collector.
+- `CITES` edges for `sources/` pages → `library_source` nodes: active (Pass D). A commons (or private) `subdir='source'` page resolves to a library item by slug-prefix or `source_url` match; no match → INFO-logged skip.
 
 **Per-node-type freshness rule (extending the table in the SUPERSEDES section below):**
 
@@ -344,15 +350,19 @@ The curated knowledge-memory primitive from DEC-0032/DEC-0033. One unified node 
 
 ### 13. `library_source` (embedded)
 
-The shared raw-sources half of the knowledge memory primitive from DEC-0036. One unified node type spanning all six library subdirectories with `subdir` as a discriminator column (same pattern as `wiki_page` per DEC-0033). Sidecar-driven: the `.meta.yaml` companion file is the canonical anchor — one row per sidecar; the document file itself feeds the embedding body excerpt but does not anchor the node.
+The shared raw-sources half of the knowledge memory primitive from DEC-0036, **re-axised by DEC-0062**. Sidecar-driven: the `.meta.yaml` companion file is the canonical anchor — one row per sidecar; the document file itself feeds the embedding body excerpt but does not anchor the node.
 
-**Path note:** DEC-0036 was initially drafted with the library at a lowercase `library/` top-level under home, but on macOS APFS volumes the filesystem is case-insensitive — a bare home-level `library/` directory collides with the system `~/Library/` directory. The library lives at `~/Documents/Library/` instead, parallel to `~/Documents/Claude/` (Cowork-me) and `~/Documents/Alfred/` (Alfred), preserving the "shared top-level outside any single actor's tree" design intent. DEC-0036 text may be amended at David's discretion; the implementation uses the corrected path.
+**Filing axis (DEC-0062).** The_Library is filed by **subject collection** (one shallow folder level), not by genre. The former `subdir` genre discriminator is replaced by two fields: `collection` (the folder name, from the path) and `genre` (a sidecar facet); plus an optional `work` (FRBR-lite, grouping re-issues). The extractor walks **one level deep** — any directory at the library root is a collection — so **new collections need no code change**. Node id is `<collection>/<slug>`.
+
+**Path note:** The library lives at `~/Documents/The_Library/` — its own git repo with a GitHub remote, renamed from `~/Documents/Library/` per DEC-0061 (the bare `~/library/` of DEC-0036 collided with the macOS `~/Library/` on case-insensitive APFS). Parallel to `~/Documents/The_Wiki/`.
 
 | Field | Type | Notes |
 |---|---|---|
-| `id` | TEXT PK | compound `<subdir>/<slug>` (e.g., `article/karpathy-llm-wiki-gist-20260516`) |
-| `slug` | TEXT | filename of the sidecar without the `.meta.yaml` suffix (e.g., `karpathy-llm-wiki-gist-20260516`) |
-| `subdir` | TEXT | one of `{article, paper, book, transcript, document, media}` |
+| `id` | TEXT PK | compound `<collection>/<slug>` (e.g., `general/matt-paige-karpathy-ai-second-brain-20260516`, `openclaw/configuration`) |
+| `slug` | TEXT | filename of the sidecar without the `.meta.yaml` suffix |
+| `collection` | TEXT | subject-collection folder name (DEC-0062); kebab-case subject/entity (`openclaw`, `general`, …) |
+| `genre` | TEXT, nullable | sidecar facet: `article` / `paper` / `book` / `transcript` / `document` / `media` / `web-snapshot` (DEC-0062, validated warn-only) |
+| `work` | TEXT, nullable | optional FRBR-lite work-slug grouping re-issues / re-captures (DEC-0062) |
 | `title` | TEXT | from sidecar `title:` (required) |
 | `retrieved_date` | TEXT | YYYY-MM-DD from sidecar (required) |
 | `retrieved_by` | TEXT | `cowork-me`, `alfred`, or `david` (required) |
@@ -370,7 +380,7 @@ The shared raw-sources half of the knowledge memory primitive from DEC-0036. One
 | `project_id` | TEXT, always null | cross-project by design (library is shared between actors) |
 | ...common fields | | |
 
-`library_source_vec`: 768-d embedding of `title + authors + source_date + subdir + body_excerpt` via nomic-embed-text. Body excerpt is the first ~6000 chars of readable content extracted from the companion file. Format support:
+`library_source_vec`: 768-d embedding of `title + authors + source_date + collection + genre + topics + body_excerpt` via nomic-embed-text. Body excerpt is the first ~6000 chars of readable content extracted from the companion file. Format support:
 
 - `.md` / `.txt` / `.markdown`: direct read, head-truncated at 6000 chars.
 - `.pdf`: best-effort via `pdfplumber` or `pypdf` if either is in the venv; fall back to empty body excerpt (title + metadata only) if neither is available or extraction fails. Logged at INFO level when fallback fires.
@@ -379,7 +389,7 @@ The shared raw-sources half of the knowledge memory primitive from DEC-0036. One
 
 The venv on this machine at Pass D landing time has none of `pdfplumber` / `pypdf` / `ebooklib` installed — first real PDF/EPUB ingestion will hit the INFO-logged fallback path until a future pass adds extraction dependencies (intentionally out of Pass D scope per the prompt's "don't add new pip deps" constraint).
 
-**Source anchor convention:** `library:<subdir>:<slug>` (mirrors `wiki:<subdir>:<slug>` from Pass C).
+**Source anchor convention:** `library:<collection>:<slug>` (DEC-0062; mirrors `wiki:<scope>:<subdir>:<slug>`).
 
 **Hashing:** `source_hash` covers sidecar text + body excerpt joined by a sentinel — swapping the companion file with the same sidecar invalidates the row and triggers re-embedding on refresh.
 
@@ -392,7 +402,7 @@ The venv on this machine at Pass D landing time has none of `pdfplumber` / `pypd
 
 - `library_source` nodes: sources themselves are immutable once ingested (per DEC-0036). The sidecar grows over time (append-only `ingestions:` list), and the source-hash extractor re-extracts when either the sidecar or body excerpt changes — so sidecar edits (a new ingestion entry, a sharpened title) invalidate and refresh the row. The `supersedes:` field on a newer version drives a SUPERSEDES edge to the older entry; both rows remain in the graph (mirrors the decision freshness rule from DEC-0035). The `phi_gate_result = pending` state is allowable in-graph but real ingestion workflows should not let `pending` rows surface to retrieval until the gate passes; gate-mechanism enforcement is deferred to a future DEC.
 
-**Format note on tree visibility:** Each of the six subdirs contains a `.gitkeep` file so the empty tree is visible to filesystem walks; the extractor skips them. The library tree itself is **outside** the `atmaninsurance/claude-evolution` git repo (which is `~/Documents/Claude/`) — source content is intentionally not git-tracked at this stage.
+**Collection-level descriptor:** a collection may carry an optional descriptive `_collection.yaml` (e.g. `openclaw/_collection.yaml`); it is **not** a per-file sidecar (doesn't match `*.meta.yaml`) and is ignored by the extractor (DEC-0062 rule 8). The library tree is its own git repo (`atmaninsurance/The_Library`) with a GitHub remote — source content **is** git-tracked and cloud-synced (DEC-0061), under the general-knowledge-only / PHI-free constraint.
 
 ---
 
@@ -430,6 +440,7 @@ Implement only what's needed for known retrieval queries. Add more as queries de
 | `RELATES_TO` | action_item | action_item | cross-references between items (e.g., ALF-00021 relates to ALF-00002) |
 | `RELATES_TO` | wiki_page | wiki_page | wiki pages cross-reference via `see_also:` frontmatter (DEC-0033) |
 | `CITES` | wiki_page | library_source | `sources/` wiki page → raw library source. Stubbed Pass C; **activated Pass D** per DEC-0036. Resolution: slug-prefix match (`foo-bar` matches `foo-bar-YYYYMMDD`) with `source_url` equality as fallback. |
+| `DISTILLS` | wiki_page (private) | wiki_page (commons) | **DEC-0062**: a private per-agent digest → its commons canonical page, via the digest's `canonical:` backpointer. Property `canonical_updated` is the staleness pin; the digest-staleness check compares it against the commons page's current `updated`. |
 | `BELONGS_TO` | action_item | project | project-scoped item → its project |
 | `BELONGS_TO` | resolution_note | action_item | resolution note → its parent action item |
 | `REFERENCES` | process | decision | process docs cite decision rationale |
