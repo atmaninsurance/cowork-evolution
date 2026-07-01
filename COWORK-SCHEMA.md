@@ -2,7 +2,7 @@
 
 **Status:** v2, updated 2026-05-27 to reflect implementation through Pass E (2026-05-27, shipped per DEC-0042). Graph DB live and operational. Original v1 drafted 2026-05-05.
 
-**Pass history:** Pass A = pilot population + retrieval test (2026-05-06); Pass B = SUPERSEDES extractor + DEC-0035 (2026-05-18); Pass C = wiki_page node type + DEC-0033 (2026-05-19); Pass D = library_source node type + DEC-0036 (2026-05-19); Pass E = action_item + resolution_note + wiki projects subdir + dash filename convention (2026-05-27 / DEC-0042); Pass F = `wiki_scope` dual-scope indexing (The_Wiki commons + private) with scope-qualified ids + `DISTILLS` edge, and `library_source` re-axised to subject collections (`collection` + `genre` + optional `work`, one-level walk) (2026-06-12 / DEC-0062).
+**Pass history:** Pass A = pilot population + retrieval test (2026-05-06); Pass B = SUPERSEDES extractor + DEC-0035 (2026-05-18); Pass C = wiki_page node type + DEC-0033 (2026-05-19); Pass D = library_source node type + DEC-0036 (2026-05-19); Pass E = action_item + resolution_note + wiki projects subdir + dash filename convention (2026-05-27 / DEC-0042); Pass F = `wiki_scope` dual-scope indexing (The_Wiki commons + private) with scope-qualified ids + `DISTILLS` edge, and `library_source` re-axised to subject collections (`collection` + `genre` + optional `work`, one-level walk) (2026-06-12 / DEC-0062); Pass G = Dispatch transcripts surface — `transcript.surface` gains the `dispatch` value and the walker (`extract.extract_all_transcripts`) now spans `cowork/` + `code/` + `dispatch/` (previously only `cowork/` was ingested) (2026-07-01 / DEC-0066).
 
 **Scope:** Cowork-me's per-agent graph DB. Indexes Cowork-me's own canonical files (`~/Claude/*` + `~/Documents/Claude/*` + `~/Documents/Projects/cowork-evolution/*`). Excludes Alfred's domain (`~/.openclaw/*`, `~/Documents/Alfred/*`, `~/Documents/Projects/alfred-evolution/*`) per cross-actor scope decision (DEC-0023). Plus the **shared knowledge commons** as named cross-actor read carve-outs (DEC-0061): the wiki commons at `~/Documents/The_Wiki/` (indexed as `wiki_page` with `wiki_scope='commons'`) and raw sources at `~/Documents/The_Library/` (per DEC-0036 / DEC-0062 — see node type 13 below). Storage at `~/Claude/memory/graph/cowork-me.db`. **14 node types shipped** (Pass D added `library_source` as #13; Pass E added `resolution_note` as #14 and renamed `open_item` → `action_item`). *Project-doc paths updated 2026-05-28 per DEC-0050 / CLD-00015.*
 
@@ -85,7 +85,7 @@ A single user-assistant turn from a transcript. Smallest semantic unit; primary 
 
 `exchange_vec` virtual table: keyed by `id`; stores 768-d embedding of `user_text + assistant_text + agent_note`.
 
-**Source:** `~/Claude/transcripts/cowork/<chat-id>.md`, anchored by `## Turn N` heading.
+**Source:** `~/Claude/transcripts/<surface>/<chat-id>.md` (cowork/code/dispatch per DEC-0066), anchored by `## Turn N` heading.
 
 ### 2. `transcript` (not embedded)
 
@@ -93,17 +93,21 @@ The per-chat transcript file as a metadata unit. Aggregates Exchanges. Content l
 
 | Field | Type | Notes |
 |---|---|---|
-| `chat_id` | TEXT PK | `local_<UUID>` |
+| `chat_id` | TEXT PK | surface-prefixed chat id, verbatim from the file's `**Chat ID:**` header: `local_<UUID>` (cowork), bare `<UUID>` (code), or `dispatch_<UUID>` (dispatch). The prefix is **not** stripped — see the surface note below. |
 | `chat_internal_name` | TEXT | substance-focused name from header |
 | `ui_title` | TEXT, nullable | Cowork UI auto-title; backfilled by EOD true-up |
-| `surface` | TEXT | `cowork`, `code`, or `chat` |
+| `surface` | TEXT | `cowork`, `code`, or `dispatch` (DEC-0066) — see surface note below |
 | `started_at` | TEXT | ISO 8601 |
 | `last_captured_at` | TEXT | ISO 8601, updated on each turn append |
 | `turn_count` | INTEGER | last_captured_turn_number |
 | `project_id` | TEXT, nullable | per-chat scope (most chats today are alfred-evolution-scoped or cross-project Cowork-design) |
 | ...common fields | | |
 
-**Source:** `~/Claude/transcripts/cowork/<chat-id>.md`, anchored by file header.
+**`surface` discriminator (DEC-0066).** The transcript node spans all three chat surfaces via a single `surface` field rather than a per-surface node type — the same unified-node-with-discriminator shape DEC-0033 chose for `wiki_page`/`subdir`, and for the same reasons (Transcript metadata is identical across surfaces; aggregate transcript queries are the dominant pattern; schema-extension cost compounds per type per ALF-037). Values: `cowork` (Cowork chats, `~/Claude/transcripts/cowork/local_<UUID>.md`), `code` (Claude Code sessions, `code/<UUID>.md`), `dispatch` (Dispatch orchestrator chats, `dispatch/dispatch_<UUID>.md`; added 2026-07-01 per DEC-0066). The walker is `extract.extract_all_transcripts` over `~/Claude/transcripts/{cowork,code,dispatch}/` (list: `extract.TRANSCRIPT_SURFACES`).
+
+The `chat_id` PK keeps its surface prefix **because that prefix is the cross-surface disambiguator.** A Dispatch child session UUID can exactly match a closed Cowork chat UUID (observed 2026-07-01: `dispatch_eb482fe5-…` vs the closed `local_eb482fe5-…`); both are indexed as distinct rows and only stay distinct because the PK retains `dispatch_`/`local_`. The **why** of that UUID re-use — whether the ID space is recycled, inherited, or a bug — is CLD-00052 Phase 1, still open; the schema does not depend on that resolution. If Phase 1 later yields a rename/normalization of the raw UUIDs, the `surface` field remains the semantic discriminator by design.
+
+**Source:** `~/Claude/transcripts/<surface>/<prefix><UUID>.md` (`cowork/local_…`, `code/…`, `dispatch/dispatch_…`), anchored by file header.
 
 ### 3. `daily_log_section` (embedded)
 

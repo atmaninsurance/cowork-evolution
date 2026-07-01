@@ -7,7 +7,7 @@
 **Parallel files within `~/Documents/Claude/`:**
 
 - **COWORK-ROADMAP.md** — stage arc (where we're going and hope to go)
-- **COWORK-DECISIONS.md** — append-only chronological log of choices with reasoning (DEC-NNNN)
+- **COWORK-DECISIONS.md** — reverse-chronological log (newest entry at top, DEC-0056) of choices with reasoning (DEC-NNNN); immutable point-in-time records, only edit = adding a `Superseded by:` tag (DEC-0057)
 - **COWORK-SCHEMA.md** — graph DB data architecture (node types, edges, vector config, freshness rules)
 - **COWORK-ARCHITECTURE.md** (this file) — narrative architectural overview
 
@@ -119,13 +119,13 @@ Action items are tracked as per-item `.md` files at `~/Claude/memory/action-item
 |---|---|---|
 | **COWORK-ARCHITECTURE.md** (this file) | Narrative architectural overview; what Cowork-me is and how the design fits together | Slow-changing; updated when architecture shifts |
 | **COWORK-ROADMAP.md** | Stage arc; where we're going + deferred items | Updated as stages transition |
-| **`~/Claude/memory/decisions/COWORK-DECISIONS-YYYY.md`** | Append-only chronological log of choices with reasoning (DEC-NNNN); year-based splits per DEC-0039. Moved from `~/Documents/Claude/decisions/` to `~/Claude/memory/decisions/` 2026-05-26. Top-level `~/Documents/Claude/COWORK-DECISIONS.md` is a pointer stub. | Append-only; never edited |
+| **`~/Claude/memory/decisions/COWORK-DECISIONS-YYYY.md`** | Reverse-chronological log (newest entry at top, DEC-0056) of choices with reasoning (DEC-NNNN); year-based splits per DEC-0039. Moved from `~/Documents/Claude/decisions/` to `~/Claude/memory/decisions/` 2026-05-26. Top-level `~/Documents/Claude/COWORK-DECISIONS.md` is a pointer stub. | Immutable point-in-time records (DEC-0057); the only edit is adding a `Superseded by:` tag |
 | **COWORK-SCHEMA.md** | Graph DB data architecture: node types, edges, vector config, freshness, population strategy | Updated when schema evolves (each Pass) |
 | **`~/Claude/memory/MEMORY.md`** | Cowork-me's always-injected handbook — what's always true and always relevant | Slow-changing; David-ratified promotions only |
 | **`~/Claude/memory/wiki/`** | Curated durable knowledge (encyclopedia layer) | Updated by EOD curation; slow-growing |
 | **`~/Claude/memory/action-items/`** | Per-item action-item `.md` files + `_index.md` startup index | Active operational tracking |
 | **`~/Claude/memory/daily/`** | Per-day session logs with [SESSION-STATE], [SUMMARY], [COMPLETE] structure | Written each session; append-only |
-| **`~/Claude/transcripts/cowork/`** | Per-chat live transcripts; Edit-with-sentinel append pattern | Written each turn; append-only |
+| **`~/Claude/transcripts/{cowork,code,dispatch}/`** | Per-chat live transcripts, one subfolder per chat surface: `cowork/local_<UUID>.md`, `code/<UUID>.md`, `dispatch/dispatch_<UUID>.md` (dispatch added 2026-07-01, DEC-0066). Edit-with-sentinel append pattern; all three walked into the graph as `transcript` rows discriminated by `surface` | Written each turn; append-only |
 | **`~/Claude/memory/processes/`** | Process documentation (EOD compaction, live-transcribe, etc.) | Updated when process changes |
 | **`~/Claude/memory/design/`** | Canonical architectural specs edited in-place: memory-locations-reference.md, and post-CLD-00002: COWORK-ROADMAP, COWORK-ARCHITECTURE, COWORK-SCHEMA | Slow-changing; updated when architecture shifts |
 | **`~/Documents/Claude/graph-pilot/`** | Graph DB program files (schema, extractors, refresh, query) | Updated per schema extension Pass |
@@ -217,6 +217,7 @@ When proposing a change:
 
 - **2026-05-26** — v1 draft written by Cowork-me. Synthesizes DEC-0001 through DEC-0036 + COWORK-SCHEMA.md v2 + graph pilot implementation through Pass D. Documents Pass E design (action_item + resolution_note + wiki projects subdir) as pending implementation.
 - **2026-05-27** — Pass E shipped per DEC-0042 (Claude Code session, chat `b6bd1761-...`). Implementation status flipped from "designed but not yet built" to "What's working"; node-type count updated to 14 shipped; wiki subdir count updated from 5 to 6 (added `projects/`); added Pass E follow-ups subsection covering stable-ID rename detection first-real-test pending, two duplicate-turn-heading transcripts, and the entity-vs-project wiki overlap.
+- **2026-07-01** — Dispatch adopted as a first-class transcripts surface (DEC-0066; Claude Code session, chat `f038b96b-...`). Transcripts row generalized from `cowork/` to `{cowork,code,dispatch}/`; graph walker (`extract.extract_all_transcripts`) now spans all three surfaces where it previously ingested only `cowork/` — so `code/` transcripts (30) entered the graph for the first time alongside the new `dispatch/` surface, discriminated by `transcript.surface`. Schema detail + PK-prefix-as-disambiguator rationale in COWORK-SCHEMA.md Pass G. ID-namespace collision (a Dispatch UUID matching a closed Cowork UUID) is CLD-00052 Phase 1, still open.
 
 ---
 
