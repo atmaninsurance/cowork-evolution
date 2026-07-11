@@ -1,12 +1,24 @@
 # Design: Code-Scheduled Nightly Automation
 
-**Status:** Design ratified in principle 2026-07-09 (David: "let's just move ahead with Code"); build pending via Prompts/CLD-00062-code-nightly-automation-build.md
+**Status:** Design ratified 2026-07-09; **BUILT + LIVE** as of night-2 (2026-07-10 ran clean end-to-end). Build prompt: Prompts/CLD-00062-code-nightly-automation-build.md.
 **Decision record:** DEC-0069 (COWORK-DECISIONS-2026.md)
-**Action item:** CLD-00062
+**Action item:** CLD-00062 (Phase 4), CLD-00063 (remote transcript protocol + Phase-3 tooling reconciliation)
 **Origin:** chat `remote_4bd6fe76-e364-5844-90b3-ad9cc6777f4b` (platform-test-fresh-session, 2026-07-09), building on CLD-00061 Datapoints 1–4
 **Author:** Cowork-me (remote session, desktop-initiated)
 
 ---
+
+## 0. As-built deviations from this design (2026-07-11, CLD-00062 Phase 4 / CLD-00063 Phase 3)
+
+The build diverged from the design below in a few deliberate, validated ways. This annex is
+**not rewritten** to match — the deviations are recorded here and the reasons noted inline:
+
+1. **Stage order — export runs BEFORE EOD (design §3 had transcript tooling as Stage 2, after EOD).** The CLD-00062 Phase 2 dry run showed EOD's discovery must see every chat, including Cowork chats that didn't self-capture, so the deterministic exporters run first (create-missing) and only the integrity **lint** runs after EOD (it cross-checks EOD's daily-log writes). Wrapper stages as-built: 1 export → 2 EOD → 3 lint → 4 graph → 5 sweep → 6 ledger.
+2. **Content-date discovery, not mtime.** "Today's sessions" are determined by the transcript header's `Live capture started` stamp (UTC→Pacific converted), not file mtime — a backfilled/reconstructed file has today's mtime but an older session date. Prevents evening-chat drop and backfill false positives.
+3. **Cowork audit.jsonl exporter added (not in the original design).** Gate 0 inventory found the desktop app persists a full `audit.jsonl` per interactive Cowork session; a second deterministic exporter (`export-cowork-transcripts.py`) reconstructs the `cowork/local_<UUID>.md` surface from it, including `--backfill-closing` (enabled 2026-07-11 — fills `[assistant]\n<pending>` bodies + closing turns, alignment-checked and provenance-stamped; CLD-00063 A3).
+4. **Remote surface is verifier-only (DEC-0070).** Remote cloud-container chats (`cowork/remote_<UUID>.md`) have no Mac-side source; they are captured in-container by `export-remote-transcript.py` and the nightly never sources/regenerates them. Tooling now classifies three ownership modes (`hand`/`tool-owned`/`live-deterministic`, CLD-00063 A2).
+5. **Alerting is FAIL-only.** ATTENTION surfaces on hard FAIL; FLAG-level findings stay in the ledger for agent triage at next session start (CLD-00063 A4). Design §5/§9 anticipated a flag file for any FLAG/FAIL; narrowed by David's "automation owns transcript fixes" direction.
+6. **Legacy EOD SKILL retirement is no-stub (DEC-0071), not "pointer stub."** §6/§ below say the legacy SKILL retires "to a pointer stub (CLD-00046)"; DEC-0071 changed the convention to **no-stub** (move to `_deprecated/`). The one live exception is a load-bearing neutering stub that stays until David removes the desktop task registration in the app UI (Code can't). See `~/Claude/memory/_deprecated/cowork-eod-skill-retirement-20260711.md`.
 
 ## 1. Problem
 
