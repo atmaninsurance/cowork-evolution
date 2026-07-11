@@ -2,6 +2,8 @@
 
 **Status:** v1 draft — 2026-05-26. Synthesizes the design decisions captured in COWORK-DECISIONS.md (DEC-0001 through DEC-0036), the data architecture in COWORK-SCHEMA.md (v2, 2026-05-26), and the stage arc in COWORK-ROADMAP.md.
 
+> **Update 2026-07-09 (DEC-0069 / CLD-00062):** the 2026-07-07 platform change moved Cowork execution to Anthropic cloud sandboxes; scheduled Cowork tasks run headless with **no device bridge** and cannot reach canonical files. Scheduled automation therefore moves to **local Claude Code via launchd** — a nightly chain (EOD compaction → transcript tooling → graph refresh → reviewed git sweep + push) replacing both the Cowork scheduled-EOD path and this document's "nightly LaunchAgent commits corpus changes" description (that agent's refresh step is absorbed; its commit step retires into the sweep). Design: `Design/code-scheduled-automation-architecture.md`. Platform mechanics: `~/Claude/memory/reference/remote-cowork-platform.md`. Sections below describing session_info-based EOD backfill or the 23:25 commit are superseded to that extent; full revision lands with CLD-00062 Phase 4.
+
 **Role of this document:** the architectural-overview entry point for Cowork-me. If a new session (David in 6 months, a future chat after compaction) reads one document to understand Cowork-me's design, it should be this one. Narrative synthesis with cross-references to the detail documents — does not duplicate content.
 
 **Parallel files within `~/Documents/Claude/`:**
