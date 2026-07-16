@@ -20,6 +20,63 @@ The build diverged from the design below in a few deliberate, validated ways. Th
 5. **Alerting is FAIL-only.** ATTENTION surfaces on hard FAIL; FLAG-level findings stay in the ledger for agent triage at next session start (CLD-00063 A4). Design §5/§9 anticipated a flag file for any FLAG/FAIL; narrowed by David's "automation owns transcript fixes" direction.
 6. **Legacy EOD SKILL retirement is no-stub (DEC-0071), not "pointer stub."** §6/§ below say the legacy SKILL retires "to a pointer stub (CLD-00046)"; DEC-0071 changed the convention to **no-stub** (move to `_deprecated/`). The one live exception is a load-bearing neutering stub that stays until David removes the desktop task registration in the app UI (Code can't). See `~/Claude/memory/_deprecated/cowork-eod-skill-retirement-20260711.md`.
 
+## 0b. As-built addendum (2026-07-14, DEC-0078): a second standing chain + the shared `run_claude` lib
+
+The nightly chain is no longer the only launchd automation on the machine. The **Agent Workflow
+queue** (CLD-00043 Stage A, DEC-0078) adds two standing agents: `com.cowork.agent-worker`
+(WatchPaths on `~/Documents/Agent_Workflow/code/inbox` + hourly fallback; serial drain, one fresh
+`claude -p` per prompt) and `com.cowork.agent-reviewer` (08:00 + 16:00 PT). Canonical documentation
+is **DEC-0078 + `~/Documents/Agent_Workflow/README.md`** — this annex deliberately does not
+duplicate it. What this annex MUST carry:
+
+- **Cross-repo dependency (load-bearing):** the nightly's `run_claude` + kill-time JSONL forensics
+  were extracted to `~/Documents/Agent_Workflow/_lib/run_claude.sh`, and `cowork-nightly.sh` now
+  **sources it from there**. Moving/renaming Agent_Workflow (or restructuring its repo) breaks the
+  nightly chain until the source line is updated; conversely, any change to the shared lib affects
+  BOTH chains and must be verified against both (nightly preflight + a queue dry prompt).
+- **Schedule interplay:** the worker stands down 22:30–00:30 PT so the 23:00 nightly runs
+  uncontended; the reviewer's fixed slots (08:00/16:00) sit outside that window by design.
+- **TCC runtime facts:** headless-launchd `claude` has its own macOS folder-permission identity —
+  first unattended run (2026-07-14) raised prompts that stalled the whole first drain (grace-kills,
+  exit 137). Grants chosen, the CLI version-change preflight that now guards updates, and producer
+  recovery conventions live in the README §Runtime facts / §Producer conventions.
+- **2026-07-13 night datapoint:** the EOD Stage-2 hang that night (rc=137, CLD-00068 class) was
+  verified NOT caused by the lib refactor — EOD invoked the shared lib correctly and was killed by
+  its own grace watchdog; the Stage-5 sweep completed in 3 min. Stage 4 (graph) still lacks a
+  timeout wrapper — candidate hardening item.
+
+## 0c. As-built addendum (2026-07-14, DEC-0079): CLD-00068 root-caused — the launchd startup-hang is a TCC per-version-path grant reset
+
+The "TCC runtime facts" bullet above (and the intermittent nightly exit-137s) resolved to a single
+root cause: **macOS TCC keys a CLI's file-access grants to the exact binary path it launches, and the
+`claude` auto-updater installs each build at a new `~/.local/share/claude/versions/<ver>` path.** So a
+freshly-updated `claude` is an un-granted TCC client; under launchd (no interactive session to answer
+the consent prompt) its first Documents access **blocks → 240 s grace kill → "died before session
+start."** Reproduced + confirmed 2026-07-14 (per-version `client_type=1` rows in `TCC.db`; live
+`com.apple.TCC` stream with `AUTHREQ_SUBJECT`=the versioned path; and a natural experiment where 2.1.209
+hung 41 min *after* 2.1.208 was consented). It is **stage-agnostic and chain-agnostic** — it hit the
+nightly EOD/sweep and the Agent Workflow worker identically, because both run the same binary in the
+same launchd context.
+
+**Fix carried into BOTH chains (load-bearing):**
+- Every launchd `claude -p` (worker, reviewer, AND this nightly chain) now runs
+  `CLAUDE_BIN=~/.local/share/claude/agent-pinned/claude` — a stable-path copy granted **Full Disk Access
+  once**. FDA is bound to Anthropic's Developer-ID requirement (Team ID `Q6L2SF6YDW`), not the cdhash, so
+  the grant survives a content refresh (verified by a 2.1.209→2.1.210 overwrite — grant row unchanged,
+  launchd probe still passed, no re-prompt).
+- The nightly gains **Stage 1.5** (`_lib/sync-pinned-claude.sh`, another shared cross-repo file) that
+  refreshes the pin from the current install once/day — `codesign --verify` + Team-ID gated, non-fatal
+  FLAG on anomaly — **before** its own claude -p stages. So the agents stay ≤1 day behind latest while
+  the path (and its grant) never move.
+- Because `CLAUDE_BIN`'s pin path and `sync-pinned-claude.sh` are shared plumbing, they **join
+  `run_claude.sh` on the "changing either affects both chains" list** — verify any change against both.
+- The worker's version-change preflight is retained as the post-re-pin health check; `_meta/cli-version.last`
+  must never be hand-seeded (that gap let the day's drain-2 skip the probe and hang anyway).
+
+No MDM on this box (confirmed via `profiles status`), so the pin — not a signature-scoped PPPC/MDM
+profile — is the durable fix available. Full incident + fix: DEC-0079 + CLD-00068; operational detail:
+Agent_Workflow `README.md` §Runtime facts.
+
 ## 1. Problem
 
 The 2026-07-07 platform change moved Cowork execution to Anthropic cloud sandboxes. Empirical findings (CLD-00061, Datapoints 3–4, 2026-07-09):
