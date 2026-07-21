@@ -1,0 +1,90 @@
+flowchart TD
+    %% Agent Workflow — actors/roles and handoffs (CLD-00073 coordinator build, v2 — human gating design 2026-07-20)
+    %% Solid = built in this increment or already live. Dotted = future / DEC-gated seams.
+    %% Bold (thick) arrows = the human channel.
+
+    subgraph SYS["Producers"]
+        CW["Consultation chats (Cowork/Code)<br/>origin: david-consultation<br/>MUST carry CLD/DEC anchors"]
+        NF["Worker / reviewer failure alerts<br/>origin: system-alert"]
+        LH["Nightly Stage-3.5 leak hook<br/>origin: system-alert"]
+        SW["Staleness watchdog<br/>(reviewer + nightly hosts)"]
+    end
+
+    subgraph ORCH["ORCHESTRATOR — dispatcher + designated dirty-reader"]
+        OIN["orchestrator/inbox/<br/>(WatchPaths trigger + hourly fallback)"]
+        SCR["Mechanical screen<br/>consultation claim w/o resolvable<br/>CLD/DEC refs = hard reject"]
+        MINT["Mint OI + quarantine intake<br/>items/OI-NNNNNN.md (templated spine)<br/>+ .intake.md (immutable)"]
+        ADJ["ADJUDICATE (from V/D findings)<br/>red-line ENFORCEMENT lives here<br/>routing authority lives here"]
+        DISP["DISPOSE<br/>only autonomous terminal act:<br/>obvious false alarm"]
+        ESC["ESCALATE (everything else)<br/>.escalation.md: provenance verdict<br/>+ questions + recommendation"]
+        COMP["COMPLETION ROUND<br/>verify deliverable → route per deliver_to<br/>→ stamp delivered → close"]
+        ARCH["archive/YYYY/ + _index.md"]
+    end
+
+    VD["VERIFICATION / DESIGN (V-D)<br/>stateless invoked session, findings ONLY<br/>reads OI + CLD/DEC (clean by default;<br/>full original only when the document<br/>itself would route — class b)<br/>provenance · viability · impact ·<br/>questions · ≥3-alternatives design"]
+
+    GOV[("Governance record<br/>CLD / DEC files<br/>(authorization substrate)")]
+
+    DAVID(["DAVID — sole routing authority<br/>(until the red-line/autonomy DEC)"])
+    TG["Telegram bot (dedicated; not Alfred's)<br/>summary + OI pointer ONLY —<br/>no payloads in transit<br/>+ desktop notification"]
+
+    subgraph CODE["EXECUTOR LANE — code/"]
+        CIN["code/inbox/"]
+        WK["WORKER<br/>screen → claim → execute<br/>deadline-aware, done-check"]
+        HW["HANDOFF-WRITER<br/>(V-D's structural precedent)"]
+        OUT["code/outbox/ (Result)<br/>+ code/artifacts/&lt;id&gt;/"]
+    end
+
+    RV["REVIEWER — judge<br/>verdicts + proposals only, no routing"]
+
+    EOD["NIGHTLY EOD<br/>reads _index.md (pull, never push)"]
+    DLOG["Daily log<br/>## Completions block"]
+
+    CW --> OIN
+    NF --> OIN
+    LH --> OIN
+    SW --> OIN
+    OIN ==>|"notification at creation<br/>(unconditional human channel)"| TG
+    TG ==> DAVID
+    OIN --> SCR --> MINT
+    MINT -->|"dispatch (filtered handoff:<br/>templated OI, not raw intake)"| VD
+    GOV -.->|"referenced CLD/DEC read"| VD
+    VD -->|"findings appended to OI spine"| ADJ
+    ADJ -->|"V/D-confirmed resolved / duplicate"| DISP --> ARCH
+    ADJ -->|"route / refine / unclear — all of it"| ESC
+    ESC ==>|"escalation pointer"| TG
+    DAVID ==>|"decision document → inbox<br/>(origin: david-decision, related: OI-NNNNNN;<br/>quick approval OR rewrite —<br/>absorbed into the SAME OI)"| OIN
+    ADJ -->|"enact decision: instantiate NEW<br/>queue task (class b: a COPY —<br/>quarantined original never leaves)"| CIN
+    DAVID ==>|"rare: hand-authored bypass<br/>(still screened)"| CIN
+    DAVID -.->|"future, DEC-gated:<br/>reply-based approval"| TG
+    CIN --> WK
+    WK --> OUT
+    WK -.->|"timeout kill"| HW
+    HW -.->|"HANDOFF.md → resume"| WK
+    OUT -->|"unreviewed entries"| RV
+    RV -->|"appends ## Review verdict"| OUT
+    RV -->|"follow-up proposals (today's wiring)"| CIN
+    RV -.->|"failures → write_attention"| OIN
+    RV -.->|"future DEC: proposals redirect to intake"| OIN
+    OUT -->|"PULL by pointer — orchestrator follows<br/>task: refs (WatchPaths on outbox);<br/>Result + Review BOTH required;<br/>lane never writes into orchestrator/"| COMP
+    COMP ==>|"deliver_to: destination / daily-log"| DAVID
+    COMP --> ARCH
+    ARCH --> EOD --> DLOG ==> DAVID
+
+    classDef human fill:#fff3d6,stroke:#b8860b,stroke-width:2px,color:#333
+    classDef notify fill:#fff8e8,stroke:#b8860b,stroke-dasharray:2 2,color:#333
+    classDef orch fill:#e8f0fe,stroke:#4a6fa5,color:#222
+    classDef vd fill:#e6f6f6,stroke:#3a8a8a,color:#222
+    classDef gov fill:#f7f3ea,stroke:#8a7a4a,color:#222
+    classDef exec fill:#e9f7ef,stroke:#4a8f5d,color:#222
+    classDef judge fill:#fdeeee,stroke:#a55,color:#222
+    classDef narr fill:#f3eafd,stroke:#7a5fa5,color:#222
+
+    class DAVID human
+    class TG notify
+    class OIN,SCR,MINT,ADJ,DISP,ESC,COMP,ARCH orch
+    class VD vd
+    class GOV gov
+    class CIN,WK,HW,OUT exec
+    class RV judge
+    class EOD,DLOG narr
