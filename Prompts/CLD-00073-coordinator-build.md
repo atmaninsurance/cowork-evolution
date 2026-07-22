@@ -5,14 +5,15 @@
 **Date written:** 2026-07-20 (v2 — supersedes the same-day v1 after the human-gating design session)
 **Author:** Cowork-me
 **Executor:** Claude Code
-**Status:** Executed 2026-07-20 (David-supervised Code session). All 12 tasks + inherited dispositions
-built, verified (test_orchestrator 29/29, test_screen all-pass, test_worker_timeout 31/31, plist lint),
-and confirmed by a full supervised live smoke (ATTENTION → OI → opus V/D → escalate → david-decision →
-route → worker execute → reviewer → completion deliver → archive). Orchestrator is LIVE. **Deferred
-pending David:** the EOD Completions mirror (task 9 — nightly territory + protected end-of-day-compaction.md,
-awaiting go-ahead) and the Telegram phone-leg live-test (awaiting the bot token; degrades to desktop-only
-meanwhile). Labeled seams left for the DEC: reply-based Telegram approval; reviewer-follow-up redirect.
-See CLD-00073 Progress (2026-07-20 evening) for the full outcome + build-time answers.
+**Status:** Executed 2026-07-20/21 (David-supervised Code session) — COMPLETE. All 12 tasks + inherited
+dispositions + both once-deferred items built and verified: test_orchestrator 29/29, test_screen
+all-pass, test_worker_timeout 31/31, plist lint; a full supervised live smoke (ATTENTION → OI → opus
+V/D → escalate → david-decision → route → worker execute → reviewer → completion deliver → archive);
+the EOD Completions mirror (nightly Stage 3.6) + Stage 3.5 glob fix; and the Telegram channel —
+David confirmed phone receipt of a pointer-shaped message (HTTP 200). Orchestrator is LIVE in
+production. Labeled seams left for the red-line/autonomy DEC: reply-based Telegram approval;
+reviewer-follow-up redirect. Bot token installed but exposed-in-transcript — David to rotate at leisure
+(CLD-00044). See CLD-00073 Progress (2026-07-20/21) for the full outcome + build-time answers.
 
 ---
 
