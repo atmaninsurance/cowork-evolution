@@ -3,6 +3,12 @@
 *(Re-materialized 2026-07-22 at close of chat `remote_aea41040` per the 07-22 daily-log resume
 instruction — originally delivered as a chat attachment only. Three open David calls at bottom.)*
 
+> **RATIFIED 2026-07-23 as DEC-0081** (chat `remote_62d4de81`), with one amendment: the consulting
+> chat authors the intake document and files it DIRECTLY into `orchestrator/inbox/` — the
+> save-to-a-side-file-then-David-copies pattern is retired for machinery-bound work. Template
+> installed at `_meta/intake-consultation-template.md`. Rule load class: always-load. See DEC-0081
+> for the open placement details (rule home, design-docs home, output-doc template).
+
 Two pieces, designed to work together. Neither is installed anywhere yet — placement is
 your call (proposed homes at the bottom).
 
