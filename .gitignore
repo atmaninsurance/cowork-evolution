@@ -1,3 +1,11 @@
 .DS_Store
 *.tmp
 *.swp
+
+# Obsidian is a local viewing tool, not tracked content (David, 2026-07-24):
+# per-vault settings/plugins/UI state at the project root (when the project
+# folder is opened as a vault), and the legacy Cowork/ copy-based vault until
+# it is retired.
+.obsidian/
+Cowork/
+_to_delete/
