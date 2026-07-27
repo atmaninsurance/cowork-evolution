@@ -1,0 +1,362 @@
+#!/usr/bin/env python3
+"""
+lint-transcripts.py — transcript & memory integrity lint (Stage 2, CLD-00062).
+
+Mechanical checks, no LLM. Catches the CLD-00049 zero-append failure class and
+related drift. Emits a machine-readable summary (+ optional ledger line) and,
+when violations are found, appends a single `[COMPACTION-ISSUE] ...` line to
+today's daily log so EOD/startup can't miss it.
+
+Checks:
+  1. Sentinel continuity  — every transcript's foot sentinel AFTER_TURN_N must
+     match its highest `## Turn N` header. Header-present-but-N=0 or no-sentinel
+     is the CLD-00049 zero-append class.
+  2. Header well-formedness — required header fields present.
+  3. <pending> census      — count unresolved Tier-2 assistant bodies.
+  4. Daily-log ↔ transcript cross-check — transcripts modified on <date> whose
+     UUID is not referenced anywhere in today's daily log (one direction; the
+     reverse is reported as an FYI count since chat sections are named, not UUID'd).
+  5. Action-items index drift — files on disk vs links in _index.md (ported from
+     the retired graph-agent eod-refresh-and-commit.sh step 6).
+
+Usage:
+    lint-transcripts.py [--date YYYY-MM-DD] [--json] [--write-daily-issue]
+Exit 0 if clean; 2 if any violation (non-fatal to the chain; wrapper reads it).
+"""
+
+import argparse
+import glob
+import json
+import os
+import re
+import subprocess
+import sys
+from urllib.parse import unquote
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import _transcript_common as tc
+
+HOME = os.path.expanduser("~")
+TRANSCRIPTS = os.path.join(HOME, "Claude/transcripts")
+DAILY_DIR = os.path.join(HOME, "Claude/memory/daily")
+ACTION_ITEMS = os.path.join(HOME, "Claude/memory/action-items")
+
+TURN_RE = re.compile(r"^## Turn (\d+) ", re.MULTILINE)
+REQUIRED_HEADER = ["**Chat ID:**", "**Capture mode:**", "**Append protocol:**"]
+UUID_RE = re.compile(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+# 8-hex short-id token. Daily-log `## Chat:` headers reference code sessions by
+# short id, so the cross-check must accept the prefix form, not only the full UUID
+# (CLD-00075: fixes the 39e396f4 false positive where a real, logged chat was flagged
+# unreferenced). Left edge is a lookbehind excluding only hex chars and hyphen — NOT
+# a `\b` word boundary: underscore is a regex word char, so `\b` never fired after our
+# own sanctioned surface prefixes like `remote_`/`local_`/`dispatch_`, silently failing
+# on `remote_62d4de81` (CLD-00081). Hyphen is excluded so the pattern still cannot fire
+# mid-UUID (a full UUID's own 8-hex prefix is caught by its own left neighbor, not here).
+SHORTID_RE = re.compile(r"(?<![0-9a-fA-F-])[0-9a-fA-F]{8}\b")
+
+# CLD-00075 informational leak detector: a single-turn transcript with almost no
+# turn content is very likely a fixture/probe that leaked into code/ (the unscoped
+# glob's failure mode). INFORMATIONAL only — a legitimately tiny real chat must
+# never block the chain; it feeds the nightly leak-to-inbox hook (cowork-nightly.sh).
+TRIVIAL_TURN_CONTENT_MAX = 200  # bytes of turn body below which a 1-turn file is "trivial"
+
+PROJECTS_DIR = os.path.join(HOME, ".claude/projects")
+
+
+def build_src_map(projects_dir=PROJECTS_DIR):
+    """{uuid: encoded-project-dir-basename} from the exporter-visible depth-3 JSONLs.
+    Lets the lint resolve a transcript's source cwd (for the deny-list exemption and
+    for reporting the leak's origin) while the JSONL is still within retention."""
+    m = {}
+    for p in glob.glob(os.path.join(projects_dir, "*", "*.jsonl")):
+        m.setdefault(os.path.splitext(os.path.basename(p))[0],
+                     os.path.basename(os.path.dirname(p)))
+    return m
+
+
+def turn_content_len(text):
+    """Bytes of turn content (first `## Turn ` through the foot sentinel), i.e. the
+    transcript minus its fixed header — the signal for 'trivial'."""
+    i = text.find("\n## Turn ")
+    if i == -1:
+        return 0
+    body = text[i:]
+    mm = tc.SENTINEL_RE.search(body)
+    if mm:
+        body = body[:mm.start()]
+    return len(body.strip())
+
+
+def pacific_date():
+    return subprocess.check_output(
+        ["date", "+%Y-%m-%d"], env={**os.environ, "TZ": "America/Los_Angeles"}
+    ).decode().strip()
+
+
+import datetime
+try:
+    from zoneinfo import ZoneInfo
+    _PACIFIC = ZoneInfo("America/Los_Angeles")
+except Exception:  # pragma: no cover
+    _PACIFIC = None
+
+# Capture the full header stamp incl. optional UTC time+Z, so we can convert
+# UTC→Pacific before comparing to a Pacific `TODAY` (bare-string compare across
+# two calendars silently drops evening chats — CLD-00062 Phase 2 dry-run finding).
+STARTED_RE = re.compile(
+    r"\*\*Live capture started:\*\*\s*(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2})(Z)?)?")
+
+
+def session_date(text, path):
+    """
+    The Pacific date the SESSION happened, from the header's 'Live capture
+    started' stamp — NOT the file mtime (a backfill has today's mtime but an old
+    session date). UTC stamps (…THH:MMZ) are converted to Pacific first.
+    """
+    m = STARTED_RE.search(text[:1500])
+    if not m:
+        return _pacific_mtime(path)  # fallback for pre-convention headers
+    y, mo, d, hh, mi, z = m.groups()
+    if hh is None:  # date-only header — take as-is
+        return "%s-%s-%s" % (y, mo, d)
+    dt = datetime.datetime(int(y), int(mo), int(d), int(hh), int(mi),
+                           tzinfo=datetime.timezone.utc)
+    if z and _PACIFIC is not None:  # explicit UTC → convert to Pacific
+        dt = dt.astimezone(_PACIFIC)
+    return dt.strftime("%Y-%m-%d")
+
+
+def lint_transcript(path, text, is_today):
+    """
+    Return (blocking, legacy, pending_count, ownership) for one transcript.
+
+    A transcript whose SESSION happened today is held to the full standard.
+    Older sessions: only the CLD-00049 zero-append class blocks; a missing
+    closing sentinel / pre-convention header is expected legacy noise.
+
+    Ownership mode (CLD-00063 Phase 3) tempers the checks for remote
+    'live-deterministic' files: their Mac copy is only updated at flush points
+    (bootstrap / close-out / the pre-nightly soft-close), so a header-only
+    AFTER_TURN_0 state is the EXPECTED pre-flush condition — turns live in the
+    container — NOT the CLD-00049 zero-append failure class. The nightly is
+    verifier-only for these (DEC-0070 item 5); it never sources or regenerates them.
+    """
+    blocking, legacy = [], []
+    name = os.path.basename(path)
+    bucket_missing = blocking if is_today else legacy
+    ownership = tc.classify_ownership(text, path)
+    live_det = ownership == "live-deterministic"
+
+    for field in REQUIRED_HEADER:
+        if field not in text[:1500]:
+            bucket_missing.append("%s: missing header field %s" % (name, field))
+
+    turn_nums = [int(m) for m in TURN_RE.findall(text)]
+    max_turn = max(turn_nums) if turn_nums else 0
+    _, sent_n = tc.parse_sentinel(text)
+
+    if sent_n is None:
+        bucket_missing.append("%s: no append-sentinel marker at foot" % name)
+    elif sent_n == 0 and max_turn == 0:
+        if live_det:
+            # Expected pre-flush state for a remote converter-maintained file:
+            # the container working copy holds the turns until a flush point.
+            # Informational only — NOT the CLD-00049 zero-append failure class.
+            legacy.append("%s: header-only (AFTER_TURN_0) — remote live-deterministic, "
+                          "awaiting first Mac flush (expected, not zero-append)" % name)
+        else:
+            # zero-append always blocks — it's the CLD-00049 failure class regardless of age
+            blocking.append("%s: ZERO-APPEND (CLD-00049 class) — header present, no turns captured" % name)
+    elif sent_n != max_turn:
+        bucket_missing.append(
+            "%s: sentinel AFTER_TURN_%d but highest turn header is %d" % (name, sent_n, max_turn))
+
+    return blocking, legacy, text.count("<pending>"), ownership
+
+
+def _pacific_mtime(path):
+    try:
+        return subprocess.check_output(
+            ["date", "-r", str(int(os.path.getmtime(path))), "+%Y-%m-%d"],
+            env={**os.environ, "TZ": "America/Los_Angeles"}).decode().strip()
+    except Exception:
+        return ""
+
+
+def check_transcripts(date):
+    blocking, legacy = [], []
+    pending_total = 0
+    ownership_counts = {"hand": 0, "tool-owned": 0, "live-deterministic": 0}
+    files = glob.glob(os.path.join(TRANSCRIPTS, "*", "*.md"))
+    todays_sessions = []  # transcripts whose SESSION happened today (by content date)
+    trivial = []          # CLD-00075 informational: possible fixture/probe leaks
+    src_map = build_src_map()
+    for path in files:
+        with open(path, "r", encoding="utf-8", errors="replace") as fh:
+            text = fh.read()
+        is_today = session_date(text, path) == date
+        if is_today:
+            todays_sessions.append(path)
+        b, l, pend, ownership = lint_transcript(path, text, is_today)
+        blocking.extend(b)
+        legacy.extend(l)
+        pending_total += pend
+        ownership_counts[ownership] = ownership_counts.get(ownership, 0) + 1
+
+        # Trivial-single-turn leak check (informational). Exempt sanctioned chain/
+        # queue machinery (CHAIN_INTERNAL_RE — incl. the marked worker preflight)
+        # and any transcript whose source cwd is a deny-listed ephemeral root
+        # (marker + deny-listed source, per David's CLD-00075 decision — NOT a
+        # whole-root exemption, so an anonymous stub from the queue root still trips).
+        turn_nums = TURN_RE.findall(text)
+        if (len(turn_nums) == 1 and turn_content_len(text) < TRIVIAL_TURN_CONTENT_MAX
+                and not is_chain_internal(text)):
+            uuid = os.path.splitext(os.path.basename(path))[0]
+            src = src_map.get(uuid)
+            if not (src and tc.is_denylisted_root(src)):
+                trivial.append({"file": os.path.basename(path),
+                                "source_dir": src or "(aged-out)"})
+    return (blocking, legacy, pending_total, files, todays_sessions,
+            ownership_counts, trivial)
+
+
+# The nightly chain spawns its own `claude -p` sessions (EOD, git-sweep) and we
+# spawn preflight/dry-run ones; the Agent Workflow queue (CLD-00069) spawns one
+# `claude -p` per task (worker) plus a reviewer pass. The exporter reconstructs
+# all of them into code/. They are chain/queue internals, NOT user chats — EOD
+# excludes them from discovery, so the daily-log cross-check must too, else it
+# flags them forever and raises a nightly false ATTENTION (CLD-00062 Phase 2
+# dry-run finding). The Agent Workflow markers are the delegated first lines the
+# worker/reviewer/orchestrator prepend to every session.
+#
+# The Agent Workflow alternative matches on the LANE SUFFIX ("not a user chat") rather
+# than enumerating each pass kind (CLD-00081). Every delegated first line is shaped
+# `Agent Workflow <pass kind> … — delegated {execution,audit}, not a user chat.` — so
+# this one alternative covers worker preflight/queue-task, reviewer, AND the orchestrator
+# V/D + escalation passes (and any future pass kind), which the enumerate-each-kind form
+# demonstrably did not (it silently missed the V/D + escalation passes: five spurious
+# 2026-07-23 findings). The other alternatives (EOD, git sweep, DRY RUN, PREFLIGHT) are
+# unchanged.
+CHAIN_INTERNAL_RE = re.compile(
+    r"End-of-Day \(EOD\) compaction agent|nightly Git Sweep agent|"
+    r"DRY RUN — PLAN ONLY|PREFLIGHT_OK|preflight smoke test|"
+    r"Agent Workflow\b[^\n]*not a user chat", re.IGNORECASE)
+
+
+def is_chain_internal(text):
+    return bool(CHAIN_INTERNAL_RE.search(text[:4000]))
+
+
+def check_daily_crosscheck(date, modified_today):
+    """Today's-session transcripts whose UUID isn't referenced in today's daily log."""
+    issues = []
+    daily = os.path.join(DAILY_DIR, date + ".md")
+    if not os.path.exists(daily):
+        return ["daily log %s.md missing" % date], 0
+    with open(daily, "r", encoding="utf-8", errors="replace") as fh:
+        dtext = fh.read()
+    daily_uuids = set(UUID_RE.findall(dtext))
+    # Also accept short-id (8-hex prefix) references: daily-log `## Chat:` headers
+    # name code sessions by short id, not full UUID (CLD-00075 — fixes the
+    # 39e396f4 false positive). A full UUID's own 8-hex prefix is word-boundaried
+    # (followed by "-"), so this set naturally includes those too.
+    daily_shortids = set(SHORTID_RE.findall(dtext))
+    for path in modified_today:
+        with open(path, "r", encoding="utf-8", errors="replace") as fh:
+            ttext = fh.read()
+        if is_chain_internal(ttext):
+            continue  # nightly-chain machinery, not a user chat to log
+        m = UUID_RE.search(os.path.basename(path))
+        if m and m.group(0) not in daily_uuids and m.group(0)[:8] not in daily_shortids:
+            issues.append("transcript modified today not referenced in daily log: %s"
+                          % os.path.basename(path))
+    chat_sections = dtext.count("\n## Chat:")
+    return issues, chat_sections
+
+
+def check_action_items_index():
+    """Ported drift check: files on disk vs links in _index.md."""
+    index = os.path.join(ACTION_ITEMS, "_index.md")
+    if not os.path.isdir(ACTION_ITEMS) or not os.path.exists(index):
+        return ["action-items _index.md missing"]
+    disk = {f for f in os.listdir(ACTION_ITEMS)
+            if f.endswith(".md") and f != "_index.md"}
+    with open(index, "r", encoding="utf-8", errors="replace") as fh:
+        content = fh.read()
+    linked = {unquote(m) for m in re.findall(r"\[(?:ALF-\d+|CLD-\d+)\]\(([^)]+)\)", content)}
+    linked = {os.path.basename(x) for x in linked}
+    out = []
+    for f in sorted(disk - linked):
+        out.append("action-item on disk, not in _index.md: %s" % f)
+    for f in sorted(linked - disk):
+        out.append("action-item linked in _index.md, not on disk: %s" % f)
+    return out
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--date", default=None)
+    ap.add_argument("--json", action="store_true")
+    ap.add_argument("--write-daily-issue", action="store_true")
+    args = ap.parse_args()
+    date = args.date or pacific_date()
+
+    (tblock, tlegacy, pending, allfiles, modtoday, ownership_counts,
+     trivial) = check_transcripts(date)
+    xissues, chat_sections = check_daily_crosscheck(date, modtoday)
+    aidrift = check_action_items_index()
+
+    # Blocking = actionable today: today's transcript problems, zero-append,
+    # daily-log cross-check gaps, and action-items index drift.
+    blocking = tblock + xissues + aidrift
+    legacy = tlegacy
+    summary = {
+        "tool": "lint-transcripts", "date": date,
+        "transcripts_scanned": len(allfiles),
+        "modified_today": len(modtoday),
+        "daily_chat_sections": chat_sections,
+        "pending_blocks": pending,
+        "ownership": ownership_counts,
+        "blocking": blocking,
+        "blocking_count": len(blocking),
+        "legacy_count": len(legacy),
+        "legacy_sample": legacy[:10],
+        # CLD-00075 informational — never blocks. The nightly wrapper reads this
+        # count to decide whether to file a leak-to-inbox ATTENTION item.
+        "trivial_single_turn_count": len(trivial),
+        "trivial_single_turn": trivial,
+        "clean": not blocking,
+    }
+
+    if blocking and args.write_daily_issue:
+        daily = os.path.join(DAILY_DIR, date + ".md")
+        if os.path.exists(daily):
+            line = ("\n[COMPACTION-ISSUE] %s lint-transcripts found %d blocking issue(s): %s\n"
+                    % (date, len(blocking), "; ".join(blocking[:8])
+                       + (" …" if len(blocking) > 8 else "")))
+            with open(daily, "a", encoding="utf-8") as fh:
+                fh.write(line)
+
+    if args.json:
+        print(json.dumps(summary, indent=2))
+    else:
+        print("lint-transcripts %s: %d transcripts (%d hand, %d tool-owned, %d live-det), "
+              "%d modified today, %d pending | %d BLOCKING, %d legacy%s" % (
+                  date, len(allfiles), ownership_counts.get("hand", 0),
+                  ownership_counts.get("tool-owned", 0),
+                  ownership_counts.get("live-deterministic", 0),
+                  len(modtoday), pending,
+                  len(blocking), len(legacy), " — CLEAN" if not blocking else ""))
+        for v in blocking:
+            print("  ! " + v)
+        if legacy:
+            print("  (%d legacy/informational findings — census only, not alarmed)" % len(legacy))
+        if trivial:
+            print("  (%d trivial-single-turn — possible fixture leak, informational): %s"
+                  % (len(trivial), ", ".join(t["file"] for t in trivial[:8])
+                     + (" …" if len(trivial) > 8 else "")))
+    return 0 if not blocking else 2
+
+
+if __name__ == "__main__":
+    sys.exit(main())

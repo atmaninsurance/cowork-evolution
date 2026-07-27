@@ -1,0 +1,99 @@
+# Verification evidence — CLD-00085/00086/00087 build, 2026-07-26
+
+## 1. Syntax
+bash -n orchestrator.sh: OK
+bash -n test_orchestrator.sh: OK
+py_compile lint-transcripts.py: OK
+
+## 2. test_orchestrator.sh — FIXED (live tree)
+
+ALL PASS (98)
+
+## 3. test_orchestrator.sh — PRISTINE orchestrator (same suite)
+  [FAIL] A1: spine token does NOT trip the gate — clean rewrite ROUTES
+  [FAIL] A1: routable task actually written to code/inbox
+  [FAIL] A1: no reverify FAIL in the ledger
+  [FAIL] A2: ledger names the matched token, file and line
+  [FAIL] A3: contradiction FLAG on a clean auto-route match that escalated
+  [FAIL] A3: the FLAG names the blocking gate
+  [FAIL] reverify FAIL line names the blocking gate too
+  [FAIL] injected block instructs the DECLARED deliverable path
+  [FAIL] other artifacts point at the declared dir
+  [FAIL] injected block does NOT instruct the task-id folder
+  [FAIL] deliverable check passed + artifact delivered from the declared dir
+11 FAILED (87 passed)
+
+## 4. lint fixtures — pristine vs fixed
+PRISTINE blocking: dddddddd-4444-4444-8444-444444444444.md: ZERO-APPEND (CLD-00049 class) — header present, no turns captured || cccccccc-3333-4333-8333-333333333333.md: sentinel AFTER_TURN_3 but highest turn header is 5 || aaaaaaaa-1111-4111-8111-111111111111.md: sentinel AFTER_TURN_1 but highest turn header is 5
+FIXED    blocking: dddddddd-4444-4444-8444-444444444444.md: ZERO-APPEND (CLD-00049 class) — header present, no turns captured || cccccccc-3333-4333-8333-333333333333.md: sentinel AFTER_TURN_3 but highest OWN turn header is 5 (line 29)
+FIXED    flags:    remote_eeeeeeee-5555-4555-8555-555555555555.md: FLAG missed flush — contingency fire never delivered (still AFTER_TURN_0, no [SOFT-CLOSE]/[SWEEP] marker, session day 2026-07-25 has passed; container likely reclaimed) || remote_99999999-7777-4777-8777-777777777777.md: FLAG fire never ran or bridge down — remote transcript for 2026-07-26 with no contingency-ledger line and no close marker
+
+C1 — quoted-content false positive (the 6d5a2d18 / 2d767e01 shape)
+  [PASS] pristine reports the spurious continuity failure
+  [PASS] fixed reports NOTHING for that transcript
+C1 — a REAL truncation still fires (own headers exceed the sentinel)
+  [PASS] pristine catches it
+  [PASS] fixed catches it too
+  [PASS] fixed names the OWN count (5) and the sentinel (3)
+C1 — zero-append (CLD-00049) unchanged
+  [PASS] pristine flags zero-append
+  [PASS] fixed still flags zero-append
+C2 — diagnosis on the finding
+  [PASS] fixed reports the max-turn header's LINE number
+C3 — seed-staleness / missed flush
+  [PASS] stale header-only remote FLAGs (missed flush)
+  [PASS] marker-bearing header-only remote does NOT flag
+  [PASS] pristine had no such check
+C4 — contingency-ledger cross-check
+  [PASS] target-day remote with no ledger line FLAGs (fire never ran)
+  [PASS] distinct message text from the C3 flag
+  [PASS] target-day remote WITH a ledger data line does not flag
+  [PASS] ledger PROSE naming a chat is not read as a fire (mention-is-not-use)
+
+fixtures: /var/folders/kx/z2gq6vbx305525t5sysv2drw0000gp/T/lint-fixtures-n2glcv5y
+ALL PASS (15)
+
+## 5. Live read-only gate evaluation, real OI-000003
+--- PRISTINE
+
+== PRISTINE gate (spine + sidecar) ==
+RESULT: red_line_hit(spine,sidecar) = TRUE — BLOCKED (the OI-000003 defect)
+--- FIXED
+RESULT: red_line_hit(sidecar) = FALSE — CLEAN (auto-route path not blocked)
+
+-- control: the SPINE alone would still match (why the surface mattered) --
+  spine matches: 'COWORK-DECISIONS' in OI-000003.md line 42
+  context: - **provenance:** verified — this re-verifies David's rewrite (`decision-01.md`, DEC-0082 choice-3 path). The 
+
+## 6. Live lint, pristine vs fixed, recent real dates (read-only)
+### 2026-07-21
+PRISTINE:
+lint-transcripts 2026-07-21: 323 transcripts (141 hand, 162 tool-owned, 20 live-det), 4 modified today, 474 pending | 1 BLOCKING, 130 legacy
+  ! 2d767e01-e8c9-464f-8d21-b80bf69d0ab8.md: sentinel AFTER_TURN_1 but highest turn header is 15
+  (130 legacy/informational findings — census only, not alarmed)
+FIXED:
+lint-transcripts 2026-07-21: 323 transcripts (141 hand, 162 tool-owned, 20 live-det), 4 modified today, 474 pending | 0 BLOCKING, 124 legacy — CLEAN
+  (124 legacy/informational findings — census only, not alarmed)
+### 2026-07-24
+PRISTINE:
+lint-transcripts 2026-07-24: 323 transcripts (141 hand, 162 tool-owned, 20 live-det), 16 modified today, 474 pending | 1 BLOCKING, 130 legacy
+  ! 6d5a2d18-e377-4d71-af20-f33971a8db8b.md: sentinel AFTER_TURN_1 but highest turn header is 5
+  (130 legacy/informational findings — census only, not alarmed)
+FIXED:
+lint-transcripts 2026-07-24: 323 transcripts (141 hand, 162 tool-owned, 20 live-det), 16 modified today, 474 pending | 0 BLOCKING, 124 legacy — CLEAN
+  (124 legacy/informational findings — census only, not alarmed)
+### 2026-07-25
+PRISTINE:
+lint-transcripts 2026-07-25: 323 transcripts (141 hand, 162 tool-owned, 20 live-det), 3 modified today, 474 pending | 0 BLOCKING, 131 legacy — CLEAN
+  (131 legacy/informational findings — census only, not alarmed)
+FIXED:
+lint-transcripts 2026-07-25: 323 transcripts (141 hand, 162 tool-owned, 20 live-det), 3 modified today, 474 pending | 0 BLOCKING, 124 legacy — CLEAN
+  (124 legacy/informational findings — census only, not alarmed)
+### 2026-07-26
+PRISTINE:
+lint-transcripts 2026-07-26: 323 transcripts (141 hand, 162 tool-owned, 20 live-det), 1 modified today, 474 pending | 0 BLOCKING, 131 legacy — CLEAN
+  (131 legacy/informational findings — census only, not alarmed)
+FIXED:
+lint-transcripts 2026-07-26: 323 transcripts (141 hand, 162 tool-owned, 20 live-det), 1 modified today, 474 pending | 0 BLOCKING, 124 legacy — 1 remote-delivery FLAG(s)
+  ! FLAG remote_4e52a150-6b3a-525f-9553-93baa9af5e19.md: FLAG fire never ran or bridge down — remote transcript for 2026-07-26 with no contingency-ledger line and no close marker
+  (124 legacy/informational findings — census only, not alarmed)
