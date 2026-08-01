@@ -19,10 +19,15 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 
 | id | status | summary | task | deliver_to | created | closed |
 |----|----|----|----|----|----|----|
-| OI-000018 | escalated | Stage-5 sweep must fail loud on a dead model call; clear the three-night commit backlog |  |  | 2026-07-30 |  |
-| OI-000019 | escalated | Restore the graph-refresh environment (Stage 4 skipped 2026-07-29) |  |  | 2026-07-30 |  |
+| OI-000018 | superseded | Stage-5 sweep must fail loud on a dead model call; clear the three-night commit backlog |  |  | 2026-07-30 |  |
+| OI-000019 | superseded | Restore the graph-refresh environment (Stage 4 skipped 2026-07-29) |  |  | 2026-07-30 |  |
 | OI-000020 | delivered | Stage-5 sweep must fail loud on a dead model call — corrected intake (clarification round 1, DEC-009 | 031-stage-5-sweep-must-fail-loud-on-a-dead-m.md | daily-log | 2026-07-30 | 2026-07-30 |
 | OI-000021 | delivered | Restore the graph-refresh environment — corrected intake (clarification round 1, DEC-0093) | 034-restore-the-graph-refresh-environment--c.md | daily-log | 2026-07-30 | 2026-07-30 |
-| OI-000022 | escalated | Give a held delivery a way to be released, and stop filesystem metadata from holding it |  |  | 2026-07-30 |  |
-| OI-000023 | escalated | Give a held delivery a release path, and stop filesystem metadata from holding it — corrected intake |  |  | 2026-07-30 |  |
+| OI-000022 | superseded | Give a held delivery a way to be released, and stop filesystem metadata from holding it |  |  | 2026-07-30 |  |
+| OI-000023 | delivered | Give a held delivery a release path, and stop filesystem metadata from holding it — corrected intake | 035-give-a-held-delivery-a-release-path-and-.md | daily-log | 2026-07-30 | 2026-07-31 |
+| OI-000024 | superseded | Make the nightly chain honest about time — correct its timestamps and let it notice when it stalls |  |  | 2026-07-31 |  |
+| OI-000025 | delivered | Make the nightly chain honest about time — corrected intake (clarification round 1, DEC-0093) | 037-make-the-nightly-chain-honest-about-time.md | daily-log | 2026-07-31 | 2026-07-31 |
+| OI-000026 | delivered | Notify David when something changes, not every time the machinery looks | 036-notify-david-when-something-changes-not-.md | daily-log | 2026-07-31 | 2026-07-31 |
+| OI-000028 | superseded | Make the test sandbox structurally unable to write the live tree |  |  | 2026-07-31 |  |
+| OI-000029 | delivered | Make the test sandbox structurally unable to write the live tree — corrected intake (clarification r | 039-make-the-test-sandbox-structurally-unabl.md | daily-log | 2026-07-31 | 2026-07-31 |
 <!-- END FILED MIRROR -->
