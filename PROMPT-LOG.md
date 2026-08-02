@@ -30,4 +30,8 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000026 | delivered | Notify David when something changes, not every time the machinery looks | 036-notify-david-when-something-changes-not-.md | daily-log | 2026-07-31 | 2026-07-31 |
 | OI-000028 | superseded | Make the test sandbox structurally unable to write the live tree |  |  | 2026-07-31 |  |
 | OI-000029 | delivered | Make the test sandbox structurally unable to write the live tree — corrected intake (clarification r | 039-make-the-test-sandbox-structurally-unabl.md | daily-log | 2026-07-31 | 2026-07-31 |
+| OI-000030 | escalated | The transcript exporters must scrub sensitive-material before it reaches the tracked surface |  |  | 2026-08-01 |  |
+| OI-000031 | escalated | Every nightly stage that claims OK must have left evidence |  |  | 2026-08-01 |  |
+| OI-000032 | delivered | The approve path sources its task from the intake, and a route failure says which cause | 040-the-approve-path-sources-its-task-from-t.md | daily-log | 2026-08-01 | 2026-08-01 |
+| OI-000033 | escalated | Escalations wait for the consulting surface, and no inbound message is ever consumed into nothing |  |  | 2026-08-01 |  |
 <!-- END FILED MIRROR -->
