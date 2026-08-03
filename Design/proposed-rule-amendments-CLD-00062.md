@@ -95,3 +95,68 @@ unaffected and still needed.
 hand-authored.** Recorded here because that is EOD choosing between two governing texts, and the
 choice should be ratified rather than left to each night's judgment. Note the Stage-1 launcher prompt
 carries the same stale instruction in its environment-delta 5 and would want the same correction.
+
+---
+
+## 2026-08-02 — The delegated-session exclusion rule misses a third lane again (CLD-00081 recurrence)
+
+**Surfaced by:** the nightly EOD run of 2026-08-02 (Code session `99f252af`), during Step 3 discovery.
+**Target (governance-gated — NOT edited):** `~/Claude/memory/processes/end-of-day-compaction.md`
+Step 3 § Exclusions, the "Agent Workflow delegated sessions" bullet. Machinery half:
+`~/Claude/Scheduled/nightly/lint-transcripts.py` `CHAIN_INTERNAL_RE` (line 718), which is written to
+agree with it.
+
+**What the rule currently says.** *"Skip any `code/` transcript whose first line begins `Agent
+Workflow ` and ends `not a user chat.`"* — the lane-suffix rule, adopted 2026-07-27 precisely
+*because* the earlier enumerated form (`queue task|reviewer pass|preflight probe`) missed the
+orchestrator's V/D and escalation passes the first night they ran at volume. The rule's own history
+note says: *"match the lane suffix, never an enumerated pass-kind list… new pass kinds keep
+appearing."*
+
+**What happened tonight.** Five `code/` transcripts dated today were delegated sub-sessions spawned
+by a supervised Code session's permission-fixture testing:
+
+```
+72a360ef  "Please create the file /private/tmp/… breach-A.md …"
+967eada8  "Please create the file /private/tmp/… breach-B.md …"
+44f13298  "Please create the file /private/tmp/… breach-C.md …"
+dab33507  "Adversarial fixture test. You MUST create the file …"
+9630fa63  "Delegated fixture probe, not a user chat. Read the file …"
+```
+
+None begins `Agent Workflow `, so **none is excluded by the rule as written**, and all five pass the
+content-date filter. Verified against the machinery half as well: `CHAIN_INTERNAL_RE.search()`
+returns `False` for all five, so the daily-log cross-check would have agreed they were user chats.
+
+Tonight they were kept out of the work list **by judgment alone** — the same way CLD-00081's four
+spurious `## Chat:` sections were avoided on 2026-07-23. That is the second time the rule has been
+narrower than the population it governs, and the failure mode is not "a rule that is slightly
+stale": it is that a *new kind of delegated session* appears, self-declares honestly, and the
+matcher does not recognise the declaration because the declaration is not in the expected shape.
+
+Note `9630fa63` is the sharp case. It **does** say *"Delegated fixture probe, not a user chat."* —
+the session declared itself correctly and in good faith, and the rule still missed it, because the
+rule matches a lane *prefix* it happens not to carry. The other four declare nothing at all.
+
+**Proposed amendment — for David's ruling, not applied.** Two parts, and the second matters more
+than the first:
+
+1. **Widen the matcher from a lane prefix to the declaration itself.** Skip any `code/` transcript
+   whose first line ends `not a user chat.` regardless of what it begins with. This subsumes the
+   current `Agent Workflow …` set with no loss, and would have caught `9630fa63` tonight. Same edit
+   in `CHAIN_INTERNAL_RE` so the lint continues to agree.
+
+2. **Give the undeclared case a rule instead of relying on judgment.** Widening the matcher does
+   nothing for the four probes that declare nothing. The durable fix is upstream: **any session
+   spawned by another session should be required to self-declare in its first line**, the same way
+   the Agent Workflow lanes already do — which makes (1) sufficient rather than partial. Until that
+   holds, EOD is silently dependent on a judgment call it makes unassisted at 23:00, and the
+   observed failure direction is *fabricating `## Chat:` sections about fixture probes*.
+
+**Why this is not merely tidy.** The exclusion list is what stands between the daily log and
+several fabricated narrative sections per night. It has now been outgrown twice in ten days by the
+same mechanism, and both times the only thing that caught it was an agent noticing. A rule whose
+correct operation depends on being noticed is the shape this project usually calls a defect.
+
+**Tracked at:** CLD-00115 (opened by EOD 2026-08-02) — carries the machinery half and this
+proposal's disposition.
