@@ -30,11 +30,14 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000026 | delivered | Notify David when something changes, not every time the machinery looks | 036-notify-david-when-something-changes-not-.md | daily-log | 2026-07-31 | 2026-07-31 |
 | OI-000028 | superseded | Make the test sandbox structurally unable to write the live tree |  |  | 2026-07-31 |  |
 | OI-000029 | delivered | Make the test sandbox structurally unable to write the live tree — corrected intake (clarification r | 039-make-the-test-sandbox-structurally-unabl.md | daily-log | 2026-07-31 | 2026-07-31 |
-| OI-000030 | escalated | The transcript exporters must scrub sensitive-material before it reaches the tracked surface |  |  | 2026-08-01 |  |
+| OI-000030 | delivered | The transcript exporters must scrub sensitive-material before it reaches the tracked surface | 049-the-transcript-exporters-must-scrub-sens.md | daily-log | 2026-08-01 | 2026-08-04 |
 | OI-000031 | escalated | Every nightly stage that claims OK must have left evidence |  |  | 2026-08-01 |  |
 | OI-000032 | delivered | The approve path sources its task from the intake, and a route failure says which cause | 040-the-approve-path-sources-its-task-from-t.md | daily-log | 2026-08-01 | 2026-08-01 |
-| OI-000033 | escalated | Escalations wait for the consulting surface, and no inbound message is ever consumed into nothing |  |  | 2026-08-01 |  |
+| OI-000033 | delivered | Escalations wait for the consulting surface, and no inbound message is ever consumed into nothing | 051-escalations-wait-for-the-consulting-surf.md | daily-log | 2026-08-01 | 2026-08-04 |
 | OI-000034 | routed | Every nightly stage that claims OK must have left evidence — corrected intake (clarification round 1 | 041-every-nightly-stage-that-claims-ok-must-.md | daily-log | 2026-08-02 |  |
 | OI-000036 | clarifying | Sweep the live documents that still describe the class table task 043 removed |  |  | 2026-08-03 |  |
-| OI-000037 | escalated | Split the reviewer into an event-driven reviewer and a timed housekeeper |  |  | 2026-08-03 |  |
+| OI-000037 | verifying | Split the reviewer into an event-driven reviewer and a timed housekeeper |  |  | 2026-08-03 |  |
+| OI-000038 | escalated | A machine-spawned session is excluded by its own declaration, not by a name prefix |  |  | 2026-08-04 |  |
+| OI-000040 | escalated | Action-item ids are allocated by a tool that reserves as it hands out |  |  | 2026-08-04 |  |
+| OI-000041 | executing | A model pass that returns nothing must fail loudly, and the items it silently mis-adjudicated are re | 048-a-model-pass-that-returns-nothing-must-f.md | daily-log | 2026-08-04 |  |
 <!-- END FILED MIRROR -->

@@ -160,3 +160,70 @@ correct operation depends on being noticed is the shape this project usually cal
 
 **Tracked at:** CLD-00115 (opened by EOD 2026-08-02) — carries the machinery half and this
 proposal's disposition.
+
+---
+
+## 2026-08-04 — The lane-suffix exclusion tests a field the exporter truncates (CLD-00081, third recurrence — this time the rule is unmatchable)
+
+**Surfaced by:** the nightly EOD run of 2026-08-04 (Code session `c0eda1dd`), during Step 3 discovery.
+**Target (governance-gated — NOT edited):** `~/Claude/memory/processes/end-of-day-compaction.md`
+Step 3 § Exclusions, the "Agent Workflow delegated sessions" bullet.
+**Tracked at:** CLD-00131 (opened by EOD tonight).
+
+**What the rule says.** *"Skip any `code/` transcript whose **first line** begins `Agent Workflow `
+and ends `not a user chat.`"*
+
+**Why it cannot work.** The self-declaration is the first line of the session's first **user
+message**. The transcript **file's** first line is the H1 title — that same text passed through
+`descriptor_from()`, and `_transcript_common.py:358` sets `DESCRIPTOR_WIDTH = 48`. The suffix the
+rule tests is cut off. Every delegated H1 ends on a dangling em dash:
+
+```
+# Transcript: Agent Workflow orchestrator V/D pass OI-000041 —
+```
+
+**Measured tonight:** 60 `code/` transcripts have an H1 beginning `Agent Workflow `; **0 have an H1
+ending `not a user chat.`** The literal rule has a 0% hit rate and has had one since it was written
+on 2026-07-27 — the truncation predates it.
+
+**Consequence if followed as written.** 48 delegated sessions enter tonight's work list and the
+daily log gains 48 fabricated `## Chat:` sections about V/D passes, escalation passes and queue
+tasks. That is CLD-00081 restored in full by the mechanism adopted to prevent it.
+
+**Why it has never fired.** The machinery half diverged in the right direction:
+`lint-transcripts.py:823` `CHAIN_INTERNAL_RE` searches `text[:4000]` — the head of the whole file —
+so it reaches the untruncated declaration inside Turn 1's body. The doc records the two as agreeing
+(*"`lint-transcripts.py`'s `CHAIN_INTERNAL_RE` was updated to the same lane-suffix rule in task
+016… so the daily-log cross-check agrees"*). **They do not agree, and the cross-check that would
+expose the divergence is computed by the correct side**, so the doc's error is invisible to the
+estate's own audit.
+
+**Proposed amendment — for David's ruling, not applied:**
+
+1. Restate the exclusion in terms of what is on disk: *skip any `code/` transcript whose **first
+   4000 characters** contain a line beginning `Agent Workflow ` and ending `not a user chat.` — the
+   declaration lives in the first user message's first line; the file's H1 is a copy truncated to
+   `DESCRIPTOR_WIDTH`.*
+2. Better, and the reason to rule rather than patch: have the doc **name `is_chain_internal()` as
+   the single implementation both readers call**, so doc and lint cannot diverge again. This is the
+   third recurrence in this file and the second where the rule and its machinery half drifted apart.
+3. Leave `DESCRIPTOR_WIDTH` alone. It exists to serve CLD-00076's scrub-**before**-truncate ordering;
+   widening it to accommodate a sentinel would be the tail wagging the dog.
+
+**Note the pattern across P-001 through here.** Three of the four entries in this file are the same
+shape: a rule in `end-of-day-compaction.md` that only works because the agent reading it noticed it
+was wrong. Tonight's caught it because a first-line test returning **zero** matches against 48
+obviously-delegated files is loud. A rule that returned *one* match would not have been.
+
+**What tonight's run did.** Fell back to `CHAIN_INTERNAL_RE`'s semantics; the work list came out
+correct (2 chats, both already live-authored). No doc was edited.
+
+### P-002 recurrence note
+
+**2026-08-04:** step 8 was declined again, for the third consecutive night (08-02 `99f252af`,
+08-03 `28aeb167`, tonight `c0eda1dd`) — same reasoning, same verification (SessionEnd hook
+configured and pointing at `code-session-end-hook.sh`; this run's JSONL present at 705 KB, so both
+deterministic paths have their input). Recording the recurrence because the cost of leaving P-002
+unruled is now visible: EOD re-derives a conflict between two governing texts every night, and the
+launcher prompt's environment-delta 5 still carries the stale instruction alongside the process
+doc's step 8.
