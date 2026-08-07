@@ -227,3 +227,74 @@ deterministic paths have their input). Recording the recurrence because the cost
 unruled is now visible: EOD re-derives a conflict between two governing texts every night, and the
 launcher prompt's environment-delta 5 still carries the stale instruction alongside the process
 doc's step 8.
+
+---
+
+## 2026-08-06 — A fourth lane misses the exclusion, and for the first time the lint misses it too (CLD-00081, fourth recurrence)
+
+### P-003 — The lane-suffix rule keys on a prefix that a self-declaring lane does not carry, and the machinery half no longer compensates
+
+**Target files:** `~/Claude/memory/processes/end-of-day-compaction.md` Step 3 ("Exclusions", the
+delegated-session bullet) **and** `~/Claude/Scheduled/nightly/lint-transcripts.py:823`
+(`CHAIN_INTERNAL_RE`). Both, this time — which is the point of the entry.
+
+**What happened.** Tonight's discovery surfaced two `code/` transcripts, `18ca9c54` and `18d552e9`,
+whose first user message opens:
+
+    DESIGNER LANE — duty (a), clarification round. Delegated execution, not a user chat.
+
+These are DEC-260114 Designer-lane clarification passes — machinery, unambiguously. The declaration
+**ends with the sanctioned suffix** (`not a user chat.`) and is well inside the first 4000
+characters. It does not begin `Agent Workflow `.
+
+**Why both halves miss.** The rule as written requires *begins* `Agent Workflow ` **and** *ends*
+`not a user chat.`; the lint's regex is the same conjunction (`Agent Workflow\b[^\n]*not a user
+chat`). Verified against both files: neither matches. Applied literally, EOD would have written two
+fabricated `## Chat:` sections about Designer passes into the durable record, and Stage 3's
+daily-log cross-check would have raised a spurious FLAG on the same two UUIDs.
+
+**Why this recurrence is worse than the previous three.** P-001-era entries and the 2026-08-04 entry
+above both close with some version of *"the lint's 4000-char search is the only reason it has never
+fired."* The doc and the machinery diverged, and the machinery happened to be the correct side. That
+is no longer true. **The two halves now agree — and are both wrong.** The compensating margin that
+made CLD-00131 survivable is gone, and the failure mode is live in the machinery half as well as in
+the prose.
+
+**Proposed amendment — for David's ruling, not applied:**
+
+1. **Drop the prefix conjunct.** Match the *declaration*, not the lane: skip any `code/` transcript
+   whose first 4000 characters contain a line ending `not a user chat.` (optionally requiring a
+   delegation word — `delegated` / `not a user chat` — on the same line). Every lane that has ever
+   missed this rule declared itself correctly and was caught only by judgment: the fixture probes
+   (CLD-00115, `Delegated fixture probe, not a user chat.`), and now the Designer lane. The prefix
+   is the part that keeps breaking; the suffix has never once been wrong.
+2. **Restate P-002-adjacent point 2 from the 2026-08-04 entry, which this recurrence re-earns:**
+   have the doc name `is_chain_internal()` as the single implementation both readers call, so the
+   prose cannot drift from the regex again. Tonight is the first night the drift ran the *other*
+   way; a shared implementation makes the direction moot.
+3. **Pair it with the second half CLD-00115 already names** — require spawned sessions to
+   self-declare in a fixed form — since widening the matcher alone leaves the next lane free to
+   invent a fifth phrasing.
+
+**What tonight's run did.** Excluded both by judgment; named their UUIDs in the daily log's
+delegated-activity paragraph so the Stage-3 cross-check resolves them rather than flagging. No doc
+and no code was edited. Recurrence appended to **CLD-00115**'s Progress; no new action item opened.
+
+**The pattern this file keeps recording.** Four entries, four instances of a rule in
+`end-of-day-compaction.md` that worked only because the agent reading it noticed it was wrong.
+Tonight's was loud — two obviously-delegated files, zero matches. The fifth lane may not be.
+
+### P-002 recurrence note (continued)
+
+**2026-08-06:** step 8 declined again — the fourth consecutive night (08-02 `99f252af`, 08-03
+`28aeb167`, 08-04 `c0eda1dd`, tonight `e6259c8f`). Same reasoning, same verification: `SessionEnd`
+is configured in `~/.claude/settings.json` pointing at `code-session-end-hook.sh` (timeout 60), and
+this run's JSONL is on disk at ~708 KB, so both deterministic paths — the hook at close and nightly
+Stage 1 as backstop — have their input. Hand-authoring `transcripts/code/<UUID>.md` is what DEC-0076
+and the bootstrap's transcript-capture section forbid outright, so step 8 and environment-delta 5 of
+`eod-prompt.md` are the two texts that need the edit, not the behaviour.
+
+Worth noting alongside P-003 above: this file now records **two** live divergences between
+`end-of-day-compaction.md` and the machinery it describes, in opposite directions — step 8 instructs
+an action the platform forbids, and Step 3's exclusion fails to instruct one the platform needs. Both
+are cheap edits blocked only on David's invitation to touch a `memory/processes/` file.
