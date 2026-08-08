@@ -31,17 +31,25 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000028 | superseded | Make the test sandbox structurally unable to write the live tree |  |  | 2026-07-31 |  |
 | OI-000029 | delivered | Make the test sandbox structurally unable to write the live tree — corrected intake (clarification r | 039-make-the-test-sandbox-structurally-unabl.md | daily-log | 2026-07-31 | 2026-07-31 |
 | OI-000030 | delivered | The transcript exporters must scrub sensitive-material before it reaches the tracked surface | 049-the-transcript-exporters-must-scrub-sens.md | daily-log | 2026-08-01 | 2026-08-04 |
-| OI-000031 | escalated | Every nightly stage that claims OK must have left evidence |  |  | 2026-08-01 |  |
+| OI-000031 | superseded | Every nightly stage that claims OK must have left evidence |  |  | 2026-08-01 |  |
 | OI-000032 | delivered | The approve path sources its task from the intake, and a route failure says which cause | 040-the-approve-path-sources-its-task-from-t.md | daily-log | 2026-08-01 | 2026-08-01 |
 | OI-000033 | delivered | Escalations wait for the consulting surface, and no inbound message is ever consumed into nothing | 051-escalations-wait-for-the-consulting-surf.md | daily-log | 2026-08-01 | 2026-08-04 |
-| OI-000034 | routed | Every nightly stage that claims OK must have left evidence — corrected intake (clarification round 1 | 041-every-nightly-stage-that-claims-ok-must-.md | daily-log | 2026-08-02 |  |
-| OI-000036 | escalated | Sweep the live documents that still describe the class table task 043 removed |  |  | 2026-08-03 |  |
+| OI-000034 | delivered | Every nightly stage that claims OK must have left evidence — corrected intake (clarification round 1 | 041-every-nightly-stage-that-claims-ok-must-.md | daily-log | 2026-08-02 | 2026-08-06 |
+| OI-000036 | superseded | Sweep the live documents that still describe the class table task 043 removed |  |  | 2026-08-03 | 2026-08-07 |
 | OI-000037 | escalated | Split the reviewer into an event-driven reviewer and a timed housekeeper |  |  | 2026-08-03 |  |
 | OI-000038 | escalated | A machine-spawned session is excluded by its own declaration, not by a name prefix |  |  | 2026-08-04 |  |
-| OI-000040 | escalated | Action-item ids are allocated by a tool that reserves as it hands out |  |  | 2026-08-04 |  |
-| OI-000041 | executing | A model pass that returns nothing must fail loudly, and the items it silently mis-adjudicated are re | 048-a-model-pass-that-returns-nothing-must-f.md | daily-log | 2026-08-04 |  |
-| OI-000042 | escalated | Build venture pipeline stage 1: Scout + mechanical gate + digest + review board + count-only attenti |  |  | 2026-08-05 |  |
+| OI-000040 | disposed | Action-item ids are allocated by a tool that reserves as it hands out |  | none | 2026-08-04 | 2026-08-06 |
+| OI-000041 | delivered | A model pass that returns nothing must fail loudly, and the items it silently mis-adjudicated are re | 052-finish-cld-00125-oi-000040-and-fix-the-r.md | daily-log | 2026-08-04 | 2026-08-06 |
+| OI-000042 | superseded | Build venture pipeline stage 1: Scout + mechanical gate + digest + review board + count-only attenti |  |  | 2026-08-05 |  |
 | OI-000043 | delivered | Venture stage-1 build 1 of 2 (corrected, round 2): review board + count-only attention notices | 055-venture-stage-1-build-1-of-2-corrected-r.md | daily-log | 2026-08-05 | 2026-08-05 |
-| OI-000044 | escalated | Corrected intake for OI-000040: the atomic id-allocation tool was delivered by the DEC-0110 estate b |  |  | 2026-08-05 |  |
-| OI-000045 | clarifying | Build the machinery responder for clarification rounds (DEC-260114 / ACI-260001) |  |  | 2026-08-05 |  |
+| OI-000044 | disposed | Corrected intake for OI-000040: the atomic id-allocation tool was delivered by the DEC-0110 estate b |  | none | 2026-08-05 | 2026-08-06 |
+| OI-000045 | delivered | Build the machinery responder for clarification rounds (DEC-260114 / ACI-260001) | 058-build-the-machinery-responder-for-clarif.md | daily-log | 2026-08-05 | 2026-08-06 |
+| OI-000046 | delivered | Sweep the live documents that still describe the class table task 043 removed — corrected intake (ro | 056-sweep-the-live-documents-that-still-desc.md | daily-log | 2026-08-06 | 2026-08-06 |
+| OI-000048 | delivered | Build the diagnostic-ticket lane ratified by DEC-0106 | 057-build-the-diagnostic-ticket-lane-ratifie.md | queue | 2026-08-06 | 2026-08-06 |
+| OI-000049 | escalated | Positive-evidence check on the escalation packaging pass |  |  | 2026-08-06 |  |
+| OI-000052 | delivered | The deliverable a done-check reads is derived at promotion, not trusted from the author | 062-the-deliverable-a-done-check-reads-is-de.md | daily-log | 2026-08-06 | 2026-08-07 |
+| OI-000053 | delivered | Echo OI-granted authorizations into the estate record; the resolver names what it cannot find | 063-echo-oi-granted-authorizations-into-the-.md | daily-log | 2026-08-06 | 2026-08-07 |
+| OI-000054 | verifying | One-time in-place redaction of the residual sensitive-material findings the exporters cannot repair |  |  | 2026-08-07 |  |
+| OI-000055 | delivered | The judge-call write guard must never destroy a concurrent writer's work | 068-the-judge-call-write-guard-must-never-de.md | daily-log | 2026-08-07 | 2026-08-07 |
+| OI-000056 | delivered | Design the Verifier rework: slim the front door to what the ratified design says it is | 067-design-the-verifier-rework-slim-the-fron.md | ~/Documents/Projects/cowork-evolution/Design/ | 2026-08-07 | 2026-08-07 |
 <!-- END FILED MIRROR -->

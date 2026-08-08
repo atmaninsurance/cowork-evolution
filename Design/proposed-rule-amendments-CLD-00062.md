@@ -298,3 +298,28 @@ Worth noting alongside P-003 above: this file now records **two** live divergenc
 `end-of-day-compaction.md` and the machinery it describes, in opposite directions — step 8 instructs
 an action the platform forbids, and Step 3's exclusion fails to instruct one the platform needs. Both
 are cheap edits blocked only on David's invitation to touch a `memory/processes/` file.
+
+### P-003 recurrence note — 2026-08-07 (nightly EOD, Code session `659d8626`)
+
+**It happened again, on the second consecutive night, in exactly the shape P-003 predicted.**
+Tonight's discovery pass found two Designer-lane transcripts —
+`85e9eb3a-7162-45f4-b9cb-15b7e07db7eb` (16:03 PT) and `121fc8e4-9443-41c8-8081-1fff932152c5`
+(16:13 PT), both OI-000056 round 1 — whose first line reads:
+
+> `DESIGNER LANE — duty (b), drafting a task block. Delegated execution, not a user chat.`
+
+That line ends with the lane suffix but does **not** begin with `Agent Workflow `, so neither
+`end-of-day-compaction.md`'s Step-3 exclusion nor `lint-transcripts.py`'s `CHAIN_INTERNAL_RE`
+matches it. Both files passed the content-date filter as ordinary user chats. Applied literally,
+tonight's rule would have produced two spurious `## Chat:` sections about machinery drafting its
+own task block.
+
+**No new proposal — the fix already written above is the fix.** This entry only records that the
+recurrence rate has gone from "once per few nights" to "two nights running", and that the volume
+is now tied to Designer-lane wake frequency (23 designer wakes today), not to anything a reader
+can anticipate. The margin P-003 noted as gone stayed gone.
+
+**What tonight's run did.** Same handling as last night: excluded both by judgment, named both
+UUIDs in the daily log's delegated-activity paragraph so the Stage-3 cross-check resolves them
+rather than flagging, and edited no doc and no code. Recurrence belongs on **CLD-00115**; no new
+action item opened.
