@@ -323,3 +323,42 @@ can anticipate. The margin P-003 noted as gone stayed gone.
 UUIDs in the daily log's delegated-activity paragraph so the Stage-3 cross-check resolves them
 rather than flagging, and edited no doc and no code. Recurrence belongs on **CLD-00115**; no new
 action item opened.
+
+---
+
+## 2026-08-08 — P-003 RESOLVED (nightly EOD, Code session `11d5276a`)
+
+**P-003 is closed. It is the first proposal in this file to reach a disposition.**
+
+David authorized the edit himself (his 2026-08-06 authorization plus the 2026-08-08 option-(b)
+tier pick on OI-000038 round 4), and the machinery landed it as queue task **070**. The fix is
+not the one-line broadening this file proposed — it is better, and it removes the class:
+
+1. **The rule moved out of prose into code.** `_transcript_common.classify_session()` is now
+   canonical, returning one of `machine-spawned` / `genuine-chat` / `undetermined`.
+   `lint-transcripts.py`'s local `CHAIN_INTERNAL_RE` was **deleted** and the lint now calls the
+   canonical function, so the two texts that had drifted four times in sixteen days are one text.
+   `end-of-day-compaction.md` Step 3 **cites** the function instead of restating it, which is why
+   this recurrence cannot repeat in the form it kept taking: there is no second copy to drift.
+2. **The `Agent Workflow ` lane PREFIX is retired as a test** — exactly the point P-003 made. The
+   suffix (`… not a user chat.`) has never once been wrong; the prefix broke four times. Positive
+   evidence is now the declaration alone: the machine-readable marker
+   `[MACHINE-SPAWNED-SESSION: v1 lane=…]` that `_lib/run_claude.sh` prepends to every spawned
+   prompt, a recognised prose self-declaration, or a legacy chain phrase. No path-shape or
+   source-root signal substitutes for a declaration.
+3. **The undeclared-and-shapeless case stopped being a judgment call at 23:00.** It now FLAGs to
+   machinery triage — bounded one-per-occurrence per DEC-0089, with a `genuine` disposition
+   returning via `--pending-writeups` as a forward write — rather than becoming the fabricated
+   `## Chat:` section that was the original failure.
+
+**First unattended run, tonight, and it held.** All 57 same-day machinery transcripts in `code/`
+were classified by the canonical function: 57 `machine-spawned`, 2 `genuine-chat`, zero judgment
+calls. The Designer lane — the lane that slipped the prose rule on 08-06 and again on 08-07, and
+whose recurrence rate this file recorded as tied to wake frequency — was excluded correctly by
+its own declaration, with no special-casing.
+
+**P-002 is now the only live divergence recorded in this file** (step 8 of
+`end-of-day-compaction.md` instructs an action DEC-0076 forbids). Declined for the sixth
+consecutive night tonight. It remains a one-line edit blocked only on David's invitation to touch
+a `memory/processes/` file — and P-003's resolution is the argument for granting it: the standing
+divergence closed the moment someone was allowed to edit the doc.

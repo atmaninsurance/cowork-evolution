@@ -37,7 +37,7 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000034 | delivered | Every nightly stage that claims OK must have left evidence — corrected intake (clarification round 1 | 041-every-nightly-stage-that-claims-ok-must-.md | daily-log | 2026-08-02 | 2026-08-06 |
 | OI-000036 | superseded | Sweep the live documents that still describe the class table task 043 removed |  |  | 2026-08-03 | 2026-08-07 |
 | OI-000037 | escalated | Split the reviewer into an event-driven reviewer and a timed housekeeper |  |  | 2026-08-03 |  |
-| OI-000038 | escalated | A machine-spawned session is excluded by its own declaration, not by a name prefix |  |  | 2026-08-04 |  |
+| OI-000038 | delivered | A machine-spawned session is excluded by its own declaration, not by a name prefix | 070-a-machine-spawned-session-is-excluded-by.md | daily-log | 2026-08-04 | 2026-08-08 |
 | OI-000040 | disposed | Action-item ids are allocated by a tool that reserves as it hands out |  | none | 2026-08-04 | 2026-08-06 |
 | OI-000041 | delivered | A model pass that returns nothing must fail loudly, and the items it silently mis-adjudicated are re | 052-finish-cld-00125-oi-000040-and-fix-the-r.md | daily-log | 2026-08-04 | 2026-08-06 |
 | OI-000042 | superseded | Build venture pipeline stage 1: Scout + mechanical gate + digest + review board + count-only attenti |  |  | 2026-08-05 |  |
@@ -46,10 +46,16 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000045 | delivered | Build the machinery responder for clarification rounds (DEC-260114 / ACI-260001) | 058-build-the-machinery-responder-for-clarif.md | daily-log | 2026-08-05 | 2026-08-06 |
 | OI-000046 | delivered | Sweep the live documents that still describe the class table task 043 removed — corrected intake (ro | 056-sweep-the-live-documents-that-still-desc.md | daily-log | 2026-08-06 | 2026-08-06 |
 | OI-000048 | delivered | Build the diagnostic-ticket lane ratified by DEC-0106 | 057-build-the-diagnostic-ticket-lane-ratifie.md | queue | 2026-08-06 | 2026-08-06 |
-| OI-000049 | escalated | Positive-evidence check on the escalation packaging pass |  |  | 2026-08-06 |  |
+| OI-000049 | disposed | Positive-evidence check on the escalation packaging pass |  | none | 2026-08-06 |  |
 | OI-000052 | delivered | The deliverable a done-check reads is derived at promotion, not trusted from the author | 062-the-deliverable-a-done-check-reads-is-de.md | daily-log | 2026-08-06 | 2026-08-07 |
 | OI-000053 | delivered | Echo OI-granted authorizations into the estate record; the resolver names what it cannot find | 063-echo-oi-granted-authorizations-into-the-.md | daily-log | 2026-08-06 | 2026-08-07 |
-| OI-000054 | verifying | One-time in-place redaction of the residual sensitive-material findings the exporters cannot repair |  |  | 2026-08-07 |  |
+| OI-000054 | delivered | One-time in-place redaction of the residual sensitive-material findings the exporters cannot repair | 069-one-time-in-place-redaction-of-the-resid.md | daily-log | 2026-08-07 | 2026-08-08 |
 | OI-000055 | delivered | The judge-call write guard must never destroy a concurrent writer's work | 068-the-judge-call-write-guard-must-never-de.md | daily-log | 2026-08-07 | 2026-08-07 |
 | OI-000056 | delivered | Design the Verifier rework: slim the front door to what the ratified design says it is | 067-design-the-verifier-rework-slim-the-fron.md | ~/Documents/Projects/cowork-evolution/Design/ | 2026-08-07 | 2026-08-07 |
+| OI-000057 | delivered | The escalation-package check verifies structure, not just non-emptiness | 071-the-escalation-package-check-verifies-st.md | daily-log | 2026-08-08 | 2026-08-08 |
+| OI-000058 | delivered | The record resolver says "not found" instead of guessing (DEC-260119 D9) | 072-the-record-resolver-says-not-found-inste.md | daily-log | 2026-08-08 | 2026-08-08 |
+| OI-000059 | delivered | Verifier rework increment I-1: deterministic checks on every filing, advisory only | 073-verifier-rework-increment-i-1-determinis.md | daily-log | 2026-08-08 | 2026-08-08 |
+| OI-000060 | delivered | Verifier rework increment I-6 (as amended): judging passes read staged copies, not the live records | 074-verifier-rework-increment-i-6-as-amended.md | daily-log | 2026-08-08 | 2026-08-08 |
+| OI-000061 | escalated | Design the reconciliation and self-improvement layer |  |  | 2026-08-08 |  |
+| OI-000062 | delivered | Design the reconciliation and self-improvement layer — corrected intake (round 2 consumed) | 076-design-the-reconciliation-and-self-impro.md | ~/Documents/Projects/cowork-evolution/Design/ | 2026-08-08 | 2026-08-08 |
 <!-- END FILED MIRROR -->
