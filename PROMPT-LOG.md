@@ -58,4 +58,5 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000060 | delivered | Verifier rework increment I-6 (as amended): judging passes read staged copies, not the live records | 074-verifier-rework-increment-i-6-as-amended.md | daily-log | 2026-08-08 | 2026-08-08 |
 | OI-000061 | escalated | Design the reconciliation and self-improvement layer |  |  | 2026-08-08 |  |
 | OI-000062 | delivered | Design the reconciliation and self-improvement layer — corrected intake (round 2 consumed) | 076-design-the-reconciliation-and-self-impro.md | ~/Documents/Projects/cowork-evolution/Design/ | 2026-08-08 | 2026-08-08 |
+| OI-000064 | escalated | The advisory intake-check's self-close-out matcher must not flag negated instructions |  |  | 2026-08-09 |  |
 <!-- END FILED MIRROR -->
