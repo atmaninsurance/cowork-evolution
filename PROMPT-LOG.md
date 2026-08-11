@@ -56,7 +56,17 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000058 | delivered | The record resolver says "not found" instead of guessing (DEC-260119 D9) | 072-the-record-resolver-says-not-found-inste.md | daily-log | 2026-08-08 | 2026-08-08 |
 | OI-000059 | delivered | Verifier rework increment I-1: deterministic checks on every filing, advisory only | 073-verifier-rework-increment-i-1-determinis.md | daily-log | 2026-08-08 | 2026-08-08 |
 | OI-000060 | delivered | Verifier rework increment I-6 (as amended): judging passes read staged copies, not the live records | 074-verifier-rework-increment-i-6-as-amended.md | daily-log | 2026-08-08 | 2026-08-08 |
-| OI-000061 | escalated | Design the reconciliation and self-improvement layer |  |  | 2026-08-08 |  |
+| OI-000061 | superseded | Design the reconciliation and self-improvement layer |  |  | 2026-08-08 | 2026-08-09 |
 | OI-000062 | delivered | Design the reconciliation and self-improvement layer — corrected intake (round 2 consumed) | 076-design-the-reconciliation-and-self-impro.md | ~/Documents/Projects/cowork-evolution/Design/ | 2026-08-08 | 2026-08-08 |
-| OI-000064 | escalated | The advisory intake-check's self-close-out matcher must not flag negated instructions |  |  | 2026-08-09 |  |
+| OI-000064 | delivered | The advisory intake-check's self-close-out matcher must not flag negated instructions | 079-the-advisory-intake-checks-self-close-ou.md | daily-log | 2026-08-09 | 2026-08-10 |
+| OI-000065 | delivered | Verifier rework increment I-7: narrow the judge-call write watch to the staging root |  | none | 2026-08-09 | 2026-08-10 |
+| OI-000066 | delivered | Reconciliation R-1: the one-time state-machine completeness audit | 087-reconciliation-r-1-the-one-time-state-ma.md | daily-log | 2026-08-10 | 2026-08-10 |
+| OI-000067 | delivered | Round governance B-1: tagged questions transit byte-verbatim, never through a model rewrite | 080-round-governance-b-1-tagged-questions-tr.md | queue | 2026-08-10 | 2026-08-10 |
+| OI-000068 | delivered | Design the executor Project Manager: sequence custody for the executor lane | 078-design-the-executor-project-manager-sequ.md | none | 2026-08-10 | 2026-08-10 |
+| OI-000069 | delivered | Front-door mint resilience: one definition of a taken id, and a visible shut door | 081-front-door-mint-resilience-one-definitio.md | daily-log | 2026-08-10 | 2026-08-10 |
+| OI-000070 | delivered | Diagnose the re-armed done task: 079 ran as attempt 3/2 after done-and-verified | 085-diagnose-the-re-armed-done-task-079-ran-.md | daily-log | 2026-08-10 | 2026-08-10 |
+| OI-000071 | executing | The last unstaged judge sheds the destructive watch: the progress judge reads nothing, so it watches | 082-the-last-unstaged-judge-sheds-the-destru.md | daily-log | 2026-08-10 |  |
+| OI-000072 | delivered | A screen-rejected task gets a terminal state, and the two parked instances are its first exercise | 083-a-screen-rejected-task-gets-a-terminal-s.md | daily-log | 2026-08-10 | 2026-08-10 |
+| OI-000073 | executing | Two failure labels tell the truth: a guard refusal is not a model error, and a resolvable id is not | 084-two-failure-labels-tell-the-truth-a-guar.md | daily-log | 2026-08-10 |  |
+| OI-000075 | routed | Fix the re-arm defect: attempt-aware returns, a structural claim bound, review invalidation | 088-fix-the-re-arm-defect-attempt-aware-retu.md | daily-log | 2026-08-10 |  |
 <!-- END FILED MIRROR -->
