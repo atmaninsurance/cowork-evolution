@@ -36,7 +36,7 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000033 | delivered | Escalations wait for the consulting surface, and no inbound message is ever consumed into nothing | 051-escalations-wait-for-the-consulting-surf.md | daily-log | 2026-08-01 | 2026-08-04 |
 | OI-000034 | delivered | Every nightly stage that claims OK must have left evidence — corrected intake (clarification round 1 | 041-every-nightly-stage-that-claims-ok-must-.md | daily-log | 2026-08-02 | 2026-08-06 |
 | OI-000036 | superseded | Sweep the live documents that still describe the class table task 043 removed |  |  | 2026-08-03 | 2026-08-07 |
-| OI-000037 | escalated | Split the reviewer into an event-driven reviewer and a timed housekeeper |  |  | 2026-08-03 |  |
+| OI-000037 | delivered | Split the reviewer into an event-driven reviewer and a timed housekeeper | 077-split-the-reviewer-into-an-event-driven-.md | daily-log | 2026-08-03 | 2026-08-11 |
 | OI-000038 | delivered | A machine-spawned session is excluded by its own declaration, not by a name prefix | 070-a-machine-spawned-session-is-excluded-by.md | daily-log | 2026-08-04 | 2026-08-08 |
 | OI-000040 | disposed | Action-item ids are allocated by a tool that reserves as it hands out |  | none | 2026-08-04 | 2026-08-06 |
 | OI-000041 | delivered | A model pass that returns nothing must fail loudly, and the items it silently mis-adjudicated are re | 052-finish-cld-00125-oi-000040-and-fix-the-r.md | daily-log | 2026-08-04 | 2026-08-06 |
@@ -65,8 +65,20 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000068 | delivered | Design the executor Project Manager: sequence custody for the executor lane | 078-design-the-executor-project-manager-sequ.md | none | 2026-08-10 | 2026-08-10 |
 | OI-000069 | delivered | Front-door mint resilience: one definition of a taken id, and a visible shut door | 081-front-door-mint-resilience-one-definitio.md | daily-log | 2026-08-10 | 2026-08-10 |
 | OI-000070 | delivered | Diagnose the re-armed done task: 079 ran as attempt 3/2 after done-and-verified | 085-diagnose-the-re-armed-done-task-079-ran-.md | daily-log | 2026-08-10 | 2026-08-10 |
-| OI-000071 | executing | The last unstaged judge sheds the destructive watch: the progress judge reads nothing, so it watches | 082-the-last-unstaged-judge-sheds-the-destru.md | daily-log | 2026-08-10 |  |
+| OI-000071 | delivered | The last unstaged judge sheds the destructive watch: the progress judge reads nothing, so it watches | 082-the-last-unstaged-judge-sheds-the-destru.md | daily-log | 2026-08-10 | 2026-08-11 |
 | OI-000072 | delivered | A screen-rejected task gets a terminal state, and the two parked instances are its first exercise | 083-a-screen-rejected-task-gets-a-terminal-s.md | daily-log | 2026-08-10 | 2026-08-10 |
-| OI-000073 | executing | Two failure labels tell the truth: a guard refusal is not a model error, and a resolvable id is not | 084-two-failure-labels-tell-the-truth-a-guar.md | daily-log | 2026-08-10 |  |
-| OI-000075 | routed | Fix the re-arm defect: attempt-aware returns, a structural claim bound, review invalidation | 088-fix-the-re-arm-defect-attempt-aware-retu.md | daily-log | 2026-08-10 |  |
+| OI-000073 | delivered | Two failure labels tell the truth: a guard refusal is not a model error, and a resolvable id is not | 084-two-failure-labels-tell-the-truth-a-guar.md | daily-log | 2026-08-10 | 2026-08-11 |
+| OI-000075 | delivered | Fix the re-arm defect: attempt-aware returns, a structural claim bound, review invalidation | 088-fix-the-re-arm-defect-attempt-aware-retu.md | daily-log | 2026-08-10 | 2026-08-11 |
+| OI-000076 | parked | Corrected refile of rejected task 042: gitignore the lint carry-state file in ~/Claude | 092-corrected-refile-of-rejected-task-042-gi.md | daily-log | 2026-08-11 |  |
+| OI-000077 | delivered | Corrected refile of rejected task 047: the mint-time scope-string lint must treat a full stop as a p | 090-corrected-refile-of-rejected-task-047-th.md | daily-log | 2026-08-11 | 2026-08-11 |
+| OI-000080 | delivered | Diagnose the vanishing-processing-file class: two claims lost mid-run in two days | 091-diagnose-the-vanishing-processing-file-c.md | daily-log | 2026-08-11 | 2026-08-11 |
+| OI-000081 | escalated | CLD-00113: teach the red-line matcher mention-is-not-use |  |  | 2026-08-11 |  |
+| OI-000083 | escalated | Track A: build the designs-delta machinery (DEC-260122 rule 3) |  |  | 2026-08-11 |  |
+| OI-000084 | escalated | Phase-1 designs doc: actors/alfred.md — Alfred at the interface level |  |  | 2026-08-11 |  |
+| OI-000085 | escalated | Phase-1 designs doc: commons/the-estate.md — The_Estate registry itself |  |  | 2026-08-11 |  |
+| OI-000086 | escalated | Phase-1 designs doc: machinery/executor-lanes.md — worker, reviewer, housekeeper, supervised mode |  |  | 2026-08-11 |  |
+| OI-000087 | escalated | Phase-1 designs doc: machinery/model-capabilities.md — model lanes and selection today |  |  | 2026-08-11 |  |
+| OI-000088 | escalated | Phase-1 designs doc: machinery/nightly-chain.md — the nightly chain stage by stage |  |  | 2026-08-11 |  |
+| OI-000089 | escalated | Phase-1 designs doc: machinery/orchestrator-core.md — how the orchestrator works today |  |  | 2026-08-11 |  |
+| OI-000090 | escalated | Phase-1 designs doc: projects.md — the role of ~/Documents/Projects/ |  |  | 2026-08-11 |  |
 <!-- END FILED MIRROR -->
