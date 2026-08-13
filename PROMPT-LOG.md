@@ -69,16 +69,16 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000072 | delivered | A screen-rejected task gets a terminal state, and the two parked instances are its first exercise | 083-a-screen-rejected-task-gets-a-terminal-s.md | daily-log | 2026-08-10 | 2026-08-10 |
 | OI-000073 | delivered | Two failure labels tell the truth: a guard refusal is not a model error, and a resolvable id is not | 084-two-failure-labels-tell-the-truth-a-guar.md | daily-log | 2026-08-10 | 2026-08-11 |
 | OI-000075 | delivered | Fix the re-arm defect: attempt-aware returns, a structural claim bound, review invalidation | 088-fix-the-re-arm-defect-attempt-aware-retu.md | daily-log | 2026-08-10 | 2026-08-11 |
-| OI-000076 | parked | Corrected refile of rejected task 042: gitignore the lint carry-state file in ~/Claude | 092-corrected-refile-of-rejected-task-042-gi.md | daily-log | 2026-08-11 |  |
+| OI-000076 | delivered | Corrected refile of rejected task 042: gitignore the lint carry-state file in ~/Claude | 092-corrected-refile-of-rejected-task-042-gi.md | daily-log | 2026-08-11 | 2026-08-12 |
 | OI-000077 | delivered | Corrected refile of rejected task 047: the mint-time scope-string lint must treat a full stop as a p | 090-corrected-refile-of-rejected-task-047-th.md | daily-log | 2026-08-11 | 2026-08-11 |
 | OI-000080 | delivered | Diagnose the vanishing-processing-file class: two claims lost mid-run in two days | 091-diagnose-the-vanishing-processing-file-c.md | daily-log | 2026-08-11 | 2026-08-11 |
-| OI-000081 | escalated | CLD-00113: teach the red-line matcher mention-is-not-use |  |  | 2026-08-11 |  |
-| OI-000083 | escalated | Track A: build the designs-delta machinery (DEC-260122 rule 3) |  |  | 2026-08-11 |  |
-| OI-000084 | escalated | Phase-1 designs doc: actors/alfred.md — Alfred at the interface level |  |  | 2026-08-11 |  |
-| OI-000085 | escalated | Phase-1 designs doc: commons/the-estate.md — The_Estate registry itself |  |  | 2026-08-11 |  |
-| OI-000086 | escalated | Phase-1 designs doc: machinery/executor-lanes.md — worker, reviewer, housekeeper, supervised mode |  |  | 2026-08-11 |  |
-| OI-000087 | escalated | Phase-1 designs doc: machinery/model-capabilities.md — model lanes and selection today |  |  | 2026-08-11 |  |
-| OI-000088 | escalated | Phase-1 designs doc: machinery/nightly-chain.md — the nightly chain stage by stage |  |  | 2026-08-11 |  |
-| OI-000089 | escalated | Phase-1 designs doc: machinery/orchestrator-core.md — how the orchestrator works today |  |  | 2026-08-11 |  |
-| OI-000090 | escalated | Phase-1 designs doc: projects.md — the role of ~/Documents/Projects/ |  |  | 2026-08-11 |  |
+| OI-000081 | delivered | CLD-00113: teach the red-line matcher mention-is-not-use | 094-cld-00113-teach-the-red-line-matcher-men.md | daily-log | 2026-08-11 | 2026-08-12 |
+| OI-000083 | delivered | Track A: build the designs-delta machinery (DEC-260122 rule 3) | 095-track-a-build-the-designs-delta-machiner.md | daily-log | 2026-08-11 | 2026-08-12 |
+| OI-000084 | delivered | Phase-1 designs doc: actors/alfred.md — Alfred at the interface level | 096-phase-1-designs-doc-actorsalfredmd--alfr.md | daily-log | 2026-08-11 | 2026-08-12 |
+| OI-000085 | delivered | Phase-1 designs doc: commons/the-estate.md — The_Estate registry itself | 097-phase-1-designs-doc-commonsthe-estatemd-.md | daily-log | 2026-08-11 | 2026-08-12 |
+| OI-000086 | delivered | Phase-1 designs doc: machinery/executor-lanes.md — worker, reviewer, housekeeper, supervised mode | 098-phase-1-designs-doc-machineryexecutor-la.md | daily-log | 2026-08-11 | 2026-08-12 |
+| OI-000087 | delivered | Phase-1 designs doc: machinery/model-capabilities.md — model lanes and selection today | 099-phase-1-designs-doc-machinerymodel-capab.md | daily-log | 2026-08-11 | 2026-08-12 |
+| OI-000088 | delivered | Phase-1 designs doc: machinery/nightly-chain.md — the nightly chain stage by stage | 100-phase-1-designs-doc-machinerynightly-cha.md | daily-log | 2026-08-11 | 2026-08-12 |
+| OI-000089 | delivered | Phase-1 designs doc: machinery/orchestrator-core.md — how the orchestrator works today | 101-phase-1-designs-doc-machineryorchestrato.md | daily-log | 2026-08-11 | 2026-08-12 |
+| OI-000090 | delivered | Phase-1 designs doc: projects.md — the role of ~/Documents/Projects/ | 102-phase-1-designs-doc-projectsmd--the-role.md | daily-log | 2026-08-11 | 2026-08-12 |
 <!-- END FILED MIRROR -->
