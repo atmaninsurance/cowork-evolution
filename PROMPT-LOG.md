@@ -82,5 +82,6 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000089 | delivered | Phase-1 designs doc: machinery/orchestrator-core.md — how the orchestrator works today | 101-phase-1-designs-doc-machineryorchestrato.md | daily-log | 2026-08-11 | 2026-08-12 |
 | OI-000090 | delivered | Phase-1 designs doc: projects.md — the role of ~/Documents/Projects/ | 102-phase-1-designs-doc-projectsmd--the-role.md | daily-log | 2026-08-11 | 2026-08-12 |
 | OI-000093 | disposed | Undeclared session 1b1db247 — machine-spawned, or a chat owed a write-up? |  | none | 2026-08-13 | 2026-08-13 |
-| OI-000094 | escalated | Give a screen-rejected task a recovery loop: auto-ticket, judged disposition, corrected refile or es |  |  | 2026-08-13 |  |
+| OI-000094 | delivered | Give a screen-rejected task a recovery loop: auto-ticket, judged disposition, corrected refile or es | 106-give-a-screen-rejected-task-a-recovery-l.md | daily-log | 2026-08-13 | 2026-08-14 |
+| OI-000095 | escalated | Done-check hardening: verified-sentence, check lints, pre-work baseline, bounded failure-context ret |  |  | 2026-08-14 |  |
 <!-- END FILED MIRROR -->
