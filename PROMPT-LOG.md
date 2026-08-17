@@ -83,5 +83,9 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000090 | delivered | Phase-1 designs doc: projects.md — the role of ~/Documents/Projects/ | 102-phase-1-designs-doc-projectsmd--the-role.md | daily-log | 2026-08-11 | 2026-08-12 |
 | OI-000093 | disposed | Undeclared session 1b1db247 — machine-spawned, or a chat owed a write-up? |  | none | 2026-08-13 | 2026-08-13 |
 | OI-000094 | delivered | Give a screen-rejected task a recovery loop: auto-ticket, judged disposition, corrected refile or es | 106-give-a-screen-rejected-task-a-recovery-l.md | daily-log | 2026-08-13 | 2026-08-14 |
-| OI-000095 | escalated | Done-check hardening: verified-sentence, check lints, pre-work baseline, bounded failure-context ret |  |  | 2026-08-14 |  |
+| OI-000095 | delivered | Done-check hardening: verified-sentence, check lints, pre-work baseline, bounded failure-context ret | 109-done-check-hardening-verified-sentence-c.md | daily-log | 2026-08-14 | 2026-08-16 |
+| OI-000098 | delivered | Corrected refile of rejected task 108: retire the stale "Alfred's tree is off-limits" prose from the | 110-corrected-refile-of-rejected-task-108-re.md | daily-log | 2026-08-16 | 2026-08-16 |
+| OI-000099 | delivered | Build the custody registry: a deny-write guard must know when the file it is about to displace is an | 112-build-the-custody-registry-a-deny-write-.md | daily-log | 2026-08-16 | 2026-08-16 |
+| OI-000100 | delivered | PM build P-1: `_meta/sequencelib.py` — parse, validate and dry-run-expand a sequence sidecar (writes | 111-pm-build-p-1-metasequencelibpy--parse-va.md | none | 2026-08-16 | 2026-08-16 |
+| OI-000102 | routed | C-R0: rename the executor lane folder `code/` → `executor/` (DEC-260133 Effect 3; supervised, stand- | 118-c-r0-rename-the-executor-lane-folder-cod.md | daily-log | 2026-08-16 |  |
 <!-- END FILED MIRROR -->
