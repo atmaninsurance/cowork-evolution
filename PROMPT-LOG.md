@@ -87,5 +87,10 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000098 | delivered | Corrected refile of rejected task 108: retire the stale "Alfred's tree is off-limits" prose from the | 110-corrected-refile-of-rejected-task-108-re.md | daily-log | 2026-08-16 | 2026-08-16 |
 | OI-000099 | delivered | Build the custody registry: a deny-write guard must know when the file it is about to displace is an | 112-build-the-custody-registry-a-deny-write-.md | daily-log | 2026-08-16 | 2026-08-16 |
 | OI-000100 | delivered | PM build P-1: `_meta/sequencelib.py` — parse, validate and dry-run-expand a sequence sidecar (writes | 111-pm-build-p-1-metasequencelibpy--parse-va.md | none | 2026-08-16 | 2026-08-16 |
-| OI-000102 | routed | C-R0: rename the executor lane folder `code/` → `executor/` (DEC-260133 Effect 3; supervised, stand- | 118-c-r0-rename-the-executor-lane-folder-cod.md | daily-log | 2026-08-16 |  |
+| OI-000102 | delivered | C-R0: rename the executor lane folder `code/` → `executor/` (DEC-260133 Effect 3; supervised, stand- | 118-c-r0-rename-the-executor-lane-folder-cod.md | daily-log | 2026-08-16 | 2026-08-17 |
+| OI-000103 | delivered | Measurement layer (DEC-260131 build iii): whole-job cost ledger + attempt log + model scoreboard, on | 119-measurement-layer-dec-260131-build-iii-w.md | daily-log | 2026-08-17 | 2026-08-17 |
+| OI-000104 | delivered | PM build P-2: `sequencelib.py check` — the mechanical checklist, run in the Designer's self-screen ( | 120-pm-build-p-2-sequencelibpy-check--the-me.md | daily-log | 2026-08-17 | 2026-08-17 |
+| OI-000105 | delivered | PM build P-3a: `executor/staged/` + the Reviewer's one deterministic routing move on `step: k/N`; fo | 121-pm-build-p-3a-executorstaged--the-review.md | daily-log | 2026-08-17 | 2026-08-17 |
+| OI-000107 | delivered | R-1: the pre-build design review — three-seat panel as a subroutine of the design lane (DEC-260134) | 123-r-1-the-pre-build-design-review--three-s.md | daily-log | 2026-08-17 | 2026-08-17 |
+| OI-000108 | escalated | PM build P-3b: the orchestrator fast path + ratified-sidecar handling + the completion-round final-s |  |  | 2026-08-17 |  |
 <!-- END FILED MIRROR -->
