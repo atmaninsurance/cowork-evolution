@@ -92,5 +92,12 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000104 | delivered | PM build P-2: `sequencelib.py check` — the mechanical checklist, run in the Designer's self-screen ( | 120-pm-build-p-2-sequencelibpy-check--the-me.md | daily-log | 2026-08-17 | 2026-08-17 |
 | OI-000105 | delivered | PM build P-3a: `executor/staged/` + the Reviewer's one deterministic routing move on `step: k/N`; fo | 121-pm-build-p-3a-executorstaged--the-review.md | daily-log | 2026-08-17 | 2026-08-17 |
 | OI-000107 | delivered | R-1: the pre-build design review — three-seat panel as a subroutine of the design lane (DEC-260134) | 123-r-1-the-pre-build-design-review--three-s.md | daily-log | 2026-08-17 | 2026-08-17 |
-| OI-000108 | escalated | PM build P-3b: the orchestrator fast path + ratified-sidecar handling + the completion-round final-s |  |  | 2026-08-17 |  |
+| OI-000108 | delivered | PM build P-3b: the orchestrator fast path + ratified-sidecar handling + the completion-round final-s | 124-pm-build-p-3b-the-orchestrator-fast-path.md | daily-log | 2026-08-17 | 2026-08-18 |
+| OI-000109 | delivered | PM build P-3c: the PM lane itself — `pm/pm.sh`, its launchd agent (David-authorized), lock, state, r | 125-pm-build-p-3c-the-pm-lane-itself--pmpmsh.md | daily-log | 2026-08-18 | 2026-08-18 |
+| OI-000110 | delivered | PM build P-5: housekeeper check 8 — a stalled sequence surfaces as ONE deduped ATTENTION | 126-pm-build-p-5-housekeeper-check-8--a-stal.md | daily-log | 2026-08-18 | 2026-08-18 |
+| OI-000111 | delivered | Build the DEC-0109 verdict taxonomy: no dropped questions, the note channel with addressees, defer-w | 130-build-the-dec-0109-verdict-taxonomy-no-d.md | daily-log | 2026-08-18 | 2026-08-18 |
+| OI-000112 | delivered | Model selection, the consumer half: `model: auto` resolves at V/D from the scoreboard; spend ceiling | 131-model-selection-the-consumer-half-model-.md | daily-log | 2026-08-18 | 2026-08-18 |
+| OI-000113 | delivered | `notify.sh` becomes structurally silent unless `NOTIFY_LIVE=1`; the seven agents set it (David-autho | 132-notifysh-becomes-structurally-silent-unl.md | daily-log | 2026-08-18 | 2026-08-18 |
+| OI-000114 | delivered | Measurement layer follow-up: reviewer tokens attribute to the item they audit (judge_ratio stops bei | 127-measurement-layer-follow-up-reviewer-tok.md | none | 2026-08-18 | 2026-08-18 |
+| OI-000115 | delivered | Screen fire-count and false-positive-disposition census (the follow-on David split out of OI-000094) | 128-screen-fire-count-and-false-positive-dis.md | daily-log | 2026-08-18 | 2026-08-18 |
 <!-- END FILED MIRROR -->
