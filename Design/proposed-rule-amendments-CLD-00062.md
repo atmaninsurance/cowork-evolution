@@ -362,3 +362,69 @@ its own declaration, with no special-casing.
 consecutive night tonight. It remains a one-line edit blocked only on David's invitation to touch
 a `memory/processes/` file — and P-003's resolution is the argument for granting it: the standing
 divergence closed the moment someone was allowed to edit the doc.
+
+---
+
+## 2026-08-19 — P-004 opened; P-002 declined for the seventeenth night (nightly EOD, Code session `f76558eb`)
+
+### P-004 — Step 3's `-mtime -2` pre-filter silently defeats the resumed-session rule it feeds
+
+**PROPOSAL — not applied.** `end-of-day-compaction.md` is a `memory/processes/` file and this
+EOD run has no invitation to edit it.
+
+**The defect.** Step 3 discovery is a two-part machine: a cheap `find … -mtime -2` pre-filter
+produces candidates, and a content-date test keeps a candidate iff
+`max(header date, last captured turn date) == TODAY`, Pacific. The second part includes the
+**resumed-session rule** added 2026-07-27 after two known misses (`1354a8d0` 07-20,
+`982532ac` 07-21) — a session started an earlier day and worked again today must be discovered.
+
+The pre-filter cancels that rule, because of a *different* deliberate design one layer down:
+`_transcript_common.set_mtime_from_iso()` sets every reconstructed transcript's mtime to its
+**session START date**, called at all four write sites in `export-code-transcripts.py`. Its
+docstring says why, and the reason is good: it stops a backfill of a weeks-old chat from looking
+"modified today" to mtime-based discovery.
+
+Both designs are right on their own. Composed, they erase exactly the case the resumed-session
+rule exists for: a session started on day N and resumed on day N+3 has `mtime = day N`, so
+`find -mtime -2` on day N+3 never emits it, and the content-date test never gets to run. The
+rule and its own input filter are aimed at the same case from opposite directions.
+
+**It bit tonight, on the biggest session of the day.** `38ff89fa` — 157 turns, header
+2026-08-17T16:25Z, last captured turn 2026-08-19T22:20Z (15:20 PT today) — carries
+`mtime = 2026-08-17 09:25` against `ctime = 2026-08-19 23:00:08` (tonight's Stage-1 export).
+`find … -mtime -2` does not return it. It entered tonight's work list only because this run
+re-scanned **every** transcript by content date rather than trusting the documented pre-filter.
+Had it followed the doc literally, the day's main session — the Buzz Planner lane design, the
+key-custody blocker, the overnight PHI triage — would have gone unrecorded, silently, with no
+flag anywhere.
+
+**Severity.** Silent and total: an mtime-dropped session produces no FLAG, no `undetermined`
+verdict, no intake. It is indistinguishable from a day on which that session did not happen.
+The 07-20/07-21 misses were "caught only by manual cross-check of the exporter's update list",
+per Step 3's own note — the same non-mechanical safety net, which is not a net.
+
+**Proposed fix (narrow, one clause).** In Step 3's discovery snippet, key the pre-filter on
+**ctime**, not mtime — `find … -newerct '2 days ago'` — with a comment recording *why*: mtime on
+this surface is a session-date stamp set by the exporter, not a modification signal, so it is
+structurally unable to answer "was this file written recently". Update the accompanying prose,
+which currently calls mtime "a cheap pre-filter only … to catch tz edges" and thereby implies a
+safety it does not have. A wider alternative — drop the pre-filter and always scan by content
+date — is what tonight's run actually did; it cost nothing measurable at the current transcript
+count and removes the class entirely, but it is the larger edit and belongs to David's call.
+
+**Related:** the fix also wants a fixture, in the spirit of the P-003 resolution: a resumed-session
+transcript whose mtime predates the window must still be discovered. There is no test today that
+would have caught this.
+
+### P-002 recurrence note — seventeenth consecutive night
+
+Step 8 of `end-of-day-compaction.md` again instructed a hand-written self-transcript that DEC-0076
+forbids; tonight's EOD again followed DEC-0076 and wrote none. Unchanged, still a one-line edit,
+still blocked only on an invitation to touch a `memory/processes/` file.
+
+**What is new is the company it now keeps.** P-004 above is a *second* live divergence in the same
+document, and unlike P-002 — which is inert, because the standing rule that overrides it is
+unambiguous and every run has simply obeyed DEC-0076 — P-004 is **load-bearing and silent**: a run
+that follows the document faithfully loses a day's largest session and says nothing. P-003's
+resolution is still the precedent worth citing: the divergence closed the moment someone was
+allowed to edit the doc, and it has not recurred since.
