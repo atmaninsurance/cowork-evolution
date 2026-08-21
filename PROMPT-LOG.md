@@ -100,4 +100,16 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000113 | delivered | `notify.sh` becomes structurally silent unless `NOTIFY_LIVE=1`; the seven agents set it (David-autho | 132-notifysh-becomes-structurally-silent-unl.md | daily-log | 2026-08-18 | 2026-08-18 |
 | OI-000114 | delivered | Measurement layer follow-up: reviewer tokens attribute to the item they audit (judge_ratio stops bei | 127-measurement-layer-follow-up-reviewer-tok.md | none | 2026-08-18 | 2026-08-18 |
 | OI-000115 | delivered | Screen fire-count and false-positive-disposition census (the follow-on David split out of OI-000094) | 128-screen-fire-count-and-false-positive-dis.md | daily-log | 2026-08-18 | 2026-08-18 |
+| OI-000116 | disposed | Undeclared session 02dc7b1d — machine-spawned, or a chat owed a write-up? |  | none | 2026-08-20 | 2026-08-20 |
+| OI-000117 | disposed | Undeclared session 1554d688 — machine-spawned, or a chat owed a write-up? |  | none | 2026-08-20 | 2026-08-20 |
+| OI-000118 | disposed | Undeclared session 81fc9d38 — machine-spawned, or a chat owed a write-up? |  | none | 2026-08-20 | 2026-08-20 |
+| OI-000119 | disposed | Undeclared session 8c619b42 — machine-spawned, or a chat owed a write-up? |  | none | 2026-08-20 | 2026-08-20 |
+| OI-000120 | disposed | Undeclared session d4e6acfd — machine-spawned, or a chat owed a write-up? |  | none | 2026-08-20 | 2026-08-20 |
+| OI-000122 | delivered | Design pass: the Buzz channel archive — deterministic per-channel export of relay history | 133-design-pass-the-buzz-channel-archive--de.md | ~/Documents/Projects/cowork-evolution/Design/ | 2026-08-20 | 2026-08-20 |
+| OI-000123 | delivered | Relay-spawned Buzz sessions declare human origin so David's conversations reach the daily log | 134-relay-spawned-buzz-sessions-declare-huma.md | daily-log | 2026-08-20 | 2026-08-20 |
+| OI-000124 | delivered | Design pass: the mandatory `action_item:` provenance field on all pipeline documents | 136-design-pass-the-mandatory-actionitem-pro.md | ~/Documents/Projects/cowork-evolution/Design/ | 2026-08-20 | 2026-08-20 |
+| OI-000130 | delivered | The review board renders resolved history as history, not as open failures | 137-the-review-board-renders-resolved-histor.md | daily-log | 2026-08-20 | 2026-08-20 |
+| OI-000131 | escalated | Build the mandatory `action_item:` field — the single atomic change the ratified design specifies |  |  | 2026-08-20 |  |
+| OI-000132 | escalated | An attention alert must never re-fire from ledger events an OI already consumed |  |  | 2026-08-20 |  |
+| OI-000133 | escalated | The decision channel gains `decision: dispose`, and OI-000129's ruled disposal is its proof case |  |  | 2026-08-20 |  |
 <!-- END FILED MIRROR -->
