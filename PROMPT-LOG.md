@@ -109,7 +109,20 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000123 | delivered | Relay-spawned Buzz sessions declare human origin so David's conversations reach the daily log | 134-relay-spawned-buzz-sessions-declare-huma.md | daily-log | 2026-08-20 | 2026-08-20 |
 | OI-000124 | delivered | Design pass: the mandatory `action_item:` provenance field on all pipeline documents | 136-design-pass-the-mandatory-actionitem-pro.md | ~/Documents/Projects/cowork-evolution/Design/ | 2026-08-20 | 2026-08-20 |
 | OI-000130 | delivered | The review board renders resolved history as history, not as open failures | 137-the-review-board-renders-resolved-histor.md | daily-log | 2026-08-20 | 2026-08-20 |
-| OI-000131 | escalated | Build the mandatory `action_item:` field — the single atomic change the ratified design specifies |  |  | 2026-08-20 |  |
-| OI-000132 | escalated | An attention alert must never re-fire from ledger events an OI already consumed |  |  | 2026-08-20 |  |
-| OI-000133 | escalated | The decision channel gains `decision: dispose`, and OI-000129's ruled disposal is its proof case |  |  | 2026-08-20 |  |
+| OI-000131 | delivered | Build the mandatory `action_item:` field — the single atomic change the ratified design specifies | 142-build-the-mandatory-actionitem-field--th.md | daily-log | 2026-08-20 | 2026-08-21 |
+| OI-000132 | delivered | An attention alert must never re-fire from ledger events an OI already consumed | 139-an-attention-alert-must-never-re-fire-fr.md | daily-log | 2026-08-20 | 2026-08-21 |
+| OI-000133 | delivered | The decision channel gains `decision: dispose`, and OI-000129's ruled disposal is its proof case | 140-the-decision-channel-gains-decision-disp.md | daily-log | 2026-08-20 | 2026-08-21 |
+| OI-000134 | delivered | Build the Buzz channel archive, increment 1: folder, repo, one-channel exporter | 141-build-the-buzz-channel-archive-increment.md | daily-log | 2026-08-21 | 2026-08-21 |
+| OI-000135 | delivered | Buzz channel archive, increment 2: all-channels coverage plus the auth-tag hardening | 143-buzz-channel-archive-increment-2-all-cha.md | daily-log | 2026-08-21 | 2026-08-21 |
+| OI-000136 | escalated | The EOD aggregation rule: N Buzz sessions of one conversation render as ONE daily-log section |  |  | 2026-08-21 |  |
+| OI-000137 | delivered | PL-0: build the Planner-side ledger — protocol library plus the synthetic state-machine proof | 144-pl-0-build-the-planner-side-ledger--prot.md | daily-log | 2026-08-21 | 2026-08-21 |
+| OI-000138 | escalated | Build DEC-260120 R-2: the hourly reconciliation pass, report-only |  |  | 2026-08-21 |  |
+| OI-000139 | delivered | Draft the one-runtime-contract document (CortextOS D3): document only, no refactor | 145-draft-the-one-runtime-contract-document-.md | ~/Documents/Projects/cowork-evolution/Design/ | 2026-08-21 | 2026-08-21 |
+| OI-000140 | delivered | The undeclared-session triage route stops dead-ending: the producer relabels to an accepted origin | 146-the-undeclared-session-triage-route-stop.md | daily-log | 2026-08-21 | 2026-08-21 |
+| OI-000141 | escalated | Undeclared session 02dc7b1d — machine-spawned, or a chat owed a write-up? |  |  | 2026-08-21 |  |
+| OI-000142 | disposed | Undeclared session 1554d688 — machine-spawned, or a chat owed a write-up? |  | none | 2026-08-21 | 2026-08-21 |
+| OI-000143 | delivered | Undeclared session 1b1db247 — machine-spawned, or a chat owed a write-up? | 147-undeclared-session-1b1db247--machine-spa.md | none | 2026-08-21 | 2026-08-21 |
+| OI-000144 | escalated | Undeclared session 81fc9d38 — machine-spawned, or a chat owed a write-up? |  |  | 2026-08-21 |  |
+| OI-000145 | escalated | Undeclared session 8c619b42 — machine-spawned, or a chat owed a write-up? |  |  | 2026-08-21 |  |
+| OI-000146 | escalated | Undeclared session d4e6acfd — machine-spawned, or a chat owed a write-up? |  |  | 2026-08-21 |  |
 <!-- END FILED MIRROR -->
