@@ -114,15 +114,17 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000133 | delivered | The decision channel gains `decision: dispose`, and OI-000129's ruled disposal is its proof case | 140-the-decision-channel-gains-decision-disp.md | daily-log | 2026-08-20 | 2026-08-21 |
 | OI-000134 | delivered | Build the Buzz channel archive, increment 1: folder, repo, one-channel exporter | 141-build-the-buzz-channel-archive-increment.md | daily-log | 2026-08-21 | 2026-08-21 |
 | OI-000135 | delivered | Buzz channel archive, increment 2: all-channels coverage plus the auth-tag hardening | 143-buzz-channel-archive-increment-2-all-cha.md | daily-log | 2026-08-21 | 2026-08-21 |
-| OI-000136 | escalated | The EOD aggregation rule: N Buzz sessions of one conversation render as ONE daily-log section |  |  | 2026-08-21 |  |
+| OI-000136 | delivered | The EOD aggregation rule: N Buzz sessions of one conversation render as ONE daily-log section | 148-the-eod-aggregation-rule-n-buzz-sessions.md | daily-log | 2026-08-21 | 2026-08-22 |
 | OI-000137 | delivered | PL-0: build the Planner-side ledger — protocol library plus the synthetic state-machine proof | 144-pl-0-build-the-planner-side-ledger--prot.md | daily-log | 2026-08-21 | 2026-08-21 |
-| OI-000138 | escalated | Build DEC-260120 R-2: the hourly reconciliation pass, report-only |  |  | 2026-08-21 |  |
+| OI-000138 | delivered | Build DEC-260120 R-2: the hourly reconciliation pass, report-only | 149-build-dec-260120-r-2-the-hourly-reconcil.md | daily-log | 2026-08-21 | 2026-08-22 |
 | OI-000139 | delivered | Draft the one-runtime-contract document (CortextOS D3): document only, no refactor | 145-draft-the-one-runtime-contract-document-.md | ~/Documents/Projects/cowork-evolution/Design/ | 2026-08-21 | 2026-08-21 |
 | OI-000140 | delivered | The undeclared-session triage route stops dead-ending: the producer relabels to an accepted origin | 146-the-undeclared-session-triage-route-stop.md | daily-log | 2026-08-21 | 2026-08-21 |
-| OI-000141 | escalated | Undeclared session 02dc7b1d — machine-spawned, or a chat owed a write-up? |  |  | 2026-08-21 |  |
+| OI-000141 | delivered | Undeclared session 02dc7b1d — machine-spawned, or a chat owed a write-up? | 150-undeclared-session-02dc7b1d--machine-spa.md | daily-log | 2026-08-21 | 2026-08-22 |
 | OI-000142 | disposed | Undeclared session 1554d688 — machine-spawned, or a chat owed a write-up? |  | none | 2026-08-21 | 2026-08-21 |
 | OI-000143 | delivered | Undeclared session 1b1db247 — machine-spawned, or a chat owed a write-up? | 147-undeclared-session-1b1db247--machine-spa.md | none | 2026-08-21 | 2026-08-21 |
-| OI-000144 | escalated | Undeclared session 81fc9d38 — machine-spawned, or a chat owed a write-up? |  |  | 2026-08-21 |  |
-| OI-000145 | escalated | Undeclared session 8c619b42 — machine-spawned, or a chat owed a write-up? |  |  | 2026-08-21 |  |
-| OI-000146 | escalated | Undeclared session d4e6acfd — machine-spawned, or a chat owed a write-up? |  |  | 2026-08-21 |  |
+| OI-000144 | delivered | Undeclared session 81fc9d38 — machine-spawned, or a chat owed a write-up? | 151-undeclared-session-81fc9d38--machine-spa.md | daily-log | 2026-08-21 | 2026-08-22 |
+| OI-000145 | delivered | Undeclared session 8c619b42 — machine-spawned, or a chat owed a write-up? | 152-undeclared-session-8c619b42--machine-spa.md | daily-log | 2026-08-21 | 2026-08-22 |
+| OI-000146 | disposed | Undeclared session d4e6acfd — machine-spawned, or a chat owed a write-up? |  | none | 2026-08-21 | 2026-08-22 |
+| OI-000147 | escalated | A red-line keyword false positive must not hold a clean item: precision fix + fixtures |  |  | 2026-08-22 |  |
+| OI-000148 | escalated | CLD-00115 half (1): widen the delegated-session detection from lane prefix to declaration |  |  | 2026-08-22 |  |
 <!-- END FILED MIRROR -->
