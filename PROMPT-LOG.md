@@ -125,6 +125,9 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000144 | delivered | Undeclared session 81fc9d38 — machine-spawned, or a chat owed a write-up? | 151-undeclared-session-81fc9d38--machine-spa.md | daily-log | 2026-08-21 | 2026-08-22 |
 | OI-000145 | delivered | Undeclared session 8c619b42 — machine-spawned, or a chat owed a write-up? | 152-undeclared-session-8c619b42--machine-spa.md | daily-log | 2026-08-21 | 2026-08-22 |
 | OI-000146 | disposed | Undeclared session d4e6acfd — machine-spawned, or a chat owed a write-up? |  | none | 2026-08-21 | 2026-08-22 |
-| OI-000147 | escalated | A red-line keyword false positive must not hold a clean item: precision fix + fixtures |  |  | 2026-08-22 |  |
-| OI-000148 | escalated | CLD-00115 half (1): widen the delegated-session detection from lane prefix to declaration |  |  | 2026-08-22 |  |
+| OI-000147 | delivered | A red-line keyword false positive must not hold a clean item: precision fix + fixtures | 154-a-red-line-keyword-false-positive-must-n.md | daily-log | 2026-08-22 | 2026-08-24 |
+| OI-000148 | delivered | CLD-00115 half (1): widen the delegated-session detection from lane prefix to declaration | 153-cld-00115-half-1-widen-the-delegated-ses.md | daily-log | 2026-08-22 | 2026-08-23 |
+| OI-000149 | escalated | Stage 3.6b delivery auto-notes never reach ACI-numbered action items |  |  | 2026-08-23 |  |
+| OI-000150 | delivered | The DEC-0109 property-A audit learns the third delivery surface: an in-flight design-handoff | 155-the-dec-0109-property-a-audit-learns-the.md | none | 2026-08-24 | 2026-08-24 |
+| OI-000151 | escalated | PL-1: build the Watcher and the local Resolver — the deterministic sensor and the record-answering w |  |  | 2026-08-24 |  |
 <!-- END FILED MIRROR -->
