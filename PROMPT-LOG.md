@@ -127,7 +127,9 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000146 | disposed | Undeclared session d4e6acfd — machine-spawned, or a chat owed a write-up? |  | none | 2026-08-21 | 2026-08-22 |
 | OI-000147 | delivered | A red-line keyword false positive must not hold a clean item: precision fix + fixtures | 154-a-red-line-keyword-false-positive-must-n.md | daily-log | 2026-08-22 | 2026-08-24 |
 | OI-000148 | delivered | CLD-00115 half (1): widen the delegated-session detection from lane prefix to declaration | 153-cld-00115-half-1-widen-the-delegated-ses.md | daily-log | 2026-08-22 | 2026-08-23 |
-| OI-000149 | escalated | Stage 3.6b delivery auto-notes never reach ACI-numbered action items |  |  | 2026-08-23 |  |
+| OI-000149 | delivered | Stage 3.6b delivery auto-notes never reach ACI-numbered action items | 156-stage-36b-delivery-auto-notes-never-reac.md | daily-log | 2026-08-23 | 2026-08-25 |
 | OI-000150 | delivered | The DEC-0109 property-A audit learns the third delivery surface: an in-flight design-handoff | 155-the-dec-0109-property-a-audit-learns-the.md | none | 2026-08-24 | 2026-08-24 |
-| OI-000151 | escalated | PL-1: build the Watcher and the local Resolver — the deterministic sensor and the record-answering w |  |  | 2026-08-24 |  |
+| OI-000151 | delivered | PL-1: build the Watcher and the local Resolver — the deterministic sensor and the record-answering w | 159-pl-1-build-the-watcher-and-the-local-res.md | daily-log | 2026-08-24 | 2026-08-25 |
+| OI-000152 | parked | Buzz channel archive — increment 3: nightly wiring (Stage-1 sibling + Stage-5 sweep roster + livenes | 160-buzz-channel-archive--increment-3-nightl.md | daily-log | 2026-08-25 |  |
+| OI-000153 | delivered | Buzz channel archive — increment 4: rendered Markdown layer (monthly files, thread-grouped forums, 1 | 158-buzz-channel-archive--increment-4-render.md | daily-log | 2026-08-25 | 2026-08-25 |
 <!-- END FILED MIRROR -->
