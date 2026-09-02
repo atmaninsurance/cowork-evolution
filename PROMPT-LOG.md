@@ -132,4 +132,5 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000151 | delivered | PL-1: build the Watcher and the local Resolver — the deterministic sensor and the record-answering w | 159-pl-1-build-the-watcher-and-the-local-res.md | daily-log | 2026-08-24 | 2026-08-25 |
 | OI-000152 | parked | Buzz channel archive — increment 3: nightly wiring (Stage-1 sibling + Stage-5 sweep roster + livenes | 160-buzz-channel-archive--increment-3-nightl.md | daily-log | 2026-08-25 |  |
 | OI-000153 | delivered | Buzz channel archive — increment 4: rendered Markdown layer (monthly files, thread-grouped forums, 1 | 158-buzz-channel-archive--increment-4-render.md | daily-log | 2026-08-25 | 2026-08-25 |
+| OI-000155 | delivered | Design pass: estate-owned conversation console — Codex-first Mac application | 163-design-pass-estate-owned-conversation-co.md | ~/Documents/Projects/cowork-evolution/Design/ | 2026-09-01 | 2026-09-01 |
 <!-- END FILED MIRROR -->
