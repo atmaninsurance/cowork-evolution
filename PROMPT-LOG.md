@@ -134,4 +134,8 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000153 | delivered | Buzz channel archive — increment 4: rendered Markdown layer (monthly files, thread-grouped forums, 1 | 158-buzz-channel-archive--increment-4-render.md | daily-log | 2026-08-25 | 2026-08-25 |
 | OI-000155 | delivered | Design pass: estate-owned conversation console — Codex-first Mac application | 163-design-pass-estate-owned-conversation-co.md | ~/Documents/Projects/cowork-evolution/Design/ | 2026-09-01 | 2026-09-01 |
 | OI-000163 | escalated | Charter and design the local Workbench Session Host |  |  | 2026-09-09 |  |
+| OI-000165 | escalated | Undeclared session 128de159 — machine-spawned, or a chat owed a write-up? |  |  | 2026-09-11 |  |
+| OI-000166 | escalated | Undeclared session 3e42e908 — machine-spawned, or a chat owed a write-up? |  |  | 2026-09-11 |  |
+| OI-000167 | escalated | Undeclared session 6a57467e — machine-spawned, or a chat owed a write-up? |  |  | 2026-09-11 |  |
+| OI-000168 | escalated | Undeclared session a83fdd26 — machine-spawned, or a chat owed a write-up? |  |  | 2026-09-11 |  |
 <!-- END FILED MIRROR -->
