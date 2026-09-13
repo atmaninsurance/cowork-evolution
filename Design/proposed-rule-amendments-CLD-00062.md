@@ -428,3 +428,17 @@ unambiguous and every run has simply obeyed DEC-0076 — P-004 is **load-bearing
 that follows the document faithfully loses a day's largest session and says nothing. P-003's
 resolution is still the precedent worth citing: the divergence closed the moment someone was
 allowed to edit the doc, and it has not recurred since.
+
+### P-002 recurrence note — 2026-09-12
+
+Step 8 still says write a self-transcript; DEC-0076 still forbids hand-authoring anything under
+`transcripts/code/`. Tonight's EOD followed DEC-0076 and wrote none, as every run has.
+
+**One thing worth recording:** this file has not been appended since 2026-08-19, so the
+"consecutive night" counter above stopped being maintained roughly 24 nights ago. That is not
+evidence the divergences were fixed — P-002 was still live tonight. If the counter is meant to
+carry weight as evidence for the edit invitation, it needs to be either maintained mechanically
+or dropped in favour of a plain "still live as of <date>" line, which is what this entry is.
+P-004's discovery-pre-filter divergence was **not** re-checked tonight (tonight's run again
+scanned by content date with a 3-day mtime pre-filter and found no genuine chats at all, so the
+class could not have shown itself either way).
