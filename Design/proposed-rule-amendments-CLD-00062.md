@@ -442,3 +442,48 @@ or dropped in favour of a plain "still live as of <date>" line, which is what th
 P-004's discovery-pre-filter divergence was **not** re-checked tonight (tonight's run again
 scanned by content date with a 3-day mtime pre-filter and found no genuine chats at all, so the
 class could not have shown itself either way).
+
+### P-002 recurrence note — 2026-09-15 (nightly EOD, Code session `283e0fed`)
+
+Still live. Step 8 says write a self-transcript to `~/Claude/transcripts/code/<OWN_SESSION_ID>.md`;
+DEC-0076 forbids hand-authoring anything under `transcripts/code/`. Tonight's run followed DEC-0076
+and wrote none, as every run has.
+
+**New evidence, and it strengthens the case for closing the divergence in DEC-0076's favour rather
+than the doc's.** Until now this has been argued as a governance conflict — two instructions, one
+newer. It is also a *mechanical* conflict, and the mechanism is in
+`export-code-transcripts.py:242-249`:
+
+```python
+if not tc.is_tool_owned(existing):
+    ...
+    if not adopt_handauthored:
+        return {"uuid": uuid, "action": "skip-handauthored", ...}
+```
+
+A hand-authored file at that path is **not** merely redundant with the exporter's reconstruction —
+it **suppresses** it. The exporter refuses to touch a transcript it does not own, so a run that
+obeyed Step 8 would trade the deterministic full reconstruction (last night's EOD self-transcript,
+`5c3ded14`, came out at 229 KB and complete) for whatever one paragraph the session wrote about
+itself before it finished. The loss is recoverable — `--adopt-handauthored` reconstructs from the
+JSONL and splices any `[note:]` blocks into a preserved-notes section — but nothing in the nightly
+chain ever passes that flag, so in practice the downgrade is permanent and silent.
+
+So Step 8's own stated rationale is inverted by the code it relies on. It reads: *"a minimal
+self-authored capture is sufficient — the deterministic exporter is the backstop."* The exporter is
+only a backstop **if the self-authored capture does not exist.** Writing one removes the backstop it
+is justified by.
+
+**Proposed amendment (not applied — this document records it):** replace Step 8 with a pointer.
+EOD writes no self-transcript; its record is produced by Stage 2's `export-code-transcripts.py` from
+the session's JSONL on a later night, and the closing assistant response of the run is what carries
+the summary forward. If any self-annotation is wanted, the supported shape is an inline `[note: …]`
+block in the closing turn, which `extract_notes()` already preserves through adoption. This is the
+same edit P-002 has asked for since 2026-07-31; the only thing that has changed tonight is that the
+cost of *following* the document is now demonstrable rather than argued.
+
+P-004's discovery-pre-filter divergence was again not re-checkable tonight: the run found exactly one
+transcript dated today by content (the Dispatch day file) and no genuine chats at all, so the class
+could not show itself either way. Separately, tonight's run found a *new* silent-skip of the same
+family on the Cowork side — filed as **ACI-260081**, not as a proposal here, because it is a code
+defect in the exporter's discovery glob rather than a divergence between the document and a rule.
