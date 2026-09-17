@@ -487,3 +487,29 @@ transcript dated today by content (the Dispatch day file) and no genuine chats a
 could not show itself either way. Separately, tonight's run found a *new* silent-skip of the same
 family on the Cowork side — filed as **ACI-260081**, not as a proposal here, because it is a code
 defect in the exporter's discovery glob rather than a divergence between the document and a rule.
+
+### P-002 recurrence note — 2026-09-16 (nightly EOD, Code session `9664591b`)
+
+Declined again; no self-transcript written. Nothing new to argue — the 09-15 entry's mechanical
+evidence was re-verified against the live code before the decision rather than carried on trust
+(`export-code-transcripts.py:242-249` still returns `skip-handauthored` for any non-tool-owned file,
+and no chain stage passes `--adopt-handauthored`), and the amendment it proposes is unchanged.
+Recording the recurrence only so the count stays honest.
+
+One observation worth attaching, because tonight produced two more instances of the same shape and a
+wiki page about it: **Step 8 is itself an example of a check whose output is decoupled from its
+subject.** Its stated rationale — *"a minimal self-authored capture is sufficient — the deterministic
+exporter is the backstop"* — describes a state of affairs that following the instruction destroys.
+The sentence is true when read and false when acted on. That is not an argument for a different
+amendment; P-002's proposed replacement already handles it. It is a note that the divergence has a
+recognisable general form, now written up in The_Wiki as
+`concepts/a-monitor-must-not-feed-its-own-metric`, and that the form is worth looking for elsewhere
+in the compaction document when the amendment is eventually considered.
+
+P-004's discovery-pre-filter divergence was again not re-checkable: one transcript dated today by
+content (the Dispatch day file), no genuine chats, so the class could not show itself either way —
+fifth consecutive night. **ACI-260081's Cowork-side silent skip repeated tonight and is now confirmed
+permanent** (two consecutive bare-prefix session directories, zero `local_<uuid>` directories created
+since the change); it stays an item rather than a proposal here, for the same reason as on 09-15 —
+it is a code defect in the exporter's discovery glob, not a divergence between this document and a
+rule. **ACI-260082**, opened tonight, is likewise a repo-hygiene item rather than a proposal.
