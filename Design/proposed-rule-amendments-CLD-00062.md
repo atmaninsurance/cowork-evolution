@@ -513,3 +513,30 @@ permanent** (two consecutive bare-prefix session directories, zero `local_<uuid>
 since the change); it stays an item rather than a proposal here, for the same reason as on 09-15 —
 it is a code defect in the exporter's discovery glob, not a divergence between this document and a
 rule. **ACI-260082**, opened tonight, is likewise a repo-hygiene item rather than a proposal.
+
+### P-002 recurrence note — 2026-09-17 (nightly EOD, Code session `1cddff3e`)
+
+Declined again — as in every run since 2026-07-31 — on the unchanged grounds: the compaction
+document's Step 8 instructs EOD to hand-author a self-transcript under `transcripts/code/`, DEC-0076
+forbids hand-authoring anything there, and the rule wins over the process doc. Nothing new was
+learned tonight and nothing was re-derived — the mechanical half (`export-code-transcripts.py`
+returning `skip-handauthored` for any file it does not own, so a hand-authored capture **suppresses**
+the deterministic reconstruction rather than duplicating it) was read directly from the code on
+09-15 and is not re-verified nightly. Recorded so the recurrence count stays honest.
+
+P-004's discovery-pre-filter divergence was again not re-checkable: exactly one transcript dated
+today by content (the Dispatch day file), no genuine chats, so the class could not show itself
+either way — **sixth consecutive night**.
+
+**ACI-260081's Cowork-side silent skip repeated for a third consecutive day** (session `90bc3200`;
+census now 159 `local_<uuid>` : 3 bare; zero `local_<uuid>` directories created since 2026-09-14).
+It stays an item rather than a proposal here for the same reason as on 09-15 and 09-16 — it is a
+code defect in the exporter's discovery glob, not a divergence between this document and a rule.
+Tonight it did acquire a general statement worth pointing at from here, since the same property
+governs P-004: a selector that reports only what it matched makes a run that dropped real work
+indistinguishable from a run that had none, on the success path, with nothing failing anywhere. The
+write-up is `The_Wiki/concepts/a-selector-must-report-what-it-declined`. If P-004 is ever taken up,
+the fix it should ask for is not a widened pre-filter but a *reported declined count* — a widened
+filter has the same defect one population-change later.
+
+No new proposals tonight.
