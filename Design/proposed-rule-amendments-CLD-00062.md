@@ -540,3 +540,40 @@ the fix it should ask for is not a widened pre-filter but a *reported declined c
 filter has the same defect one population-change later.
 
 No new proposals tonight.
+
+### P-002 recurrence note — 2026-09-18 (nightly EOD, Code session `a28d8db5`)
+
+Declined again; no self-transcript written under `transcripts/code/`. DEC-0076 forbids
+hand-authoring there and that rule wins over Step 8. The mechanical half (`export-code-transcripts.py`
+returns `skip-handauthored` for any file it does not own, so a hand-authored capture **suppresses**
+the deterministic reconstruction rather than duplicating it) was read directly from the code on
+09-15 and is not re-verified nightly. Recorded so the recurrence count stays honest.
+
+**P-004 was, for the first time in seven nights, decidable — and it resolved the wrong way to be
+comforting.** The `-mtime -2` pre-filter did not drop anything tonight: five transcripts carried a
+2026-09-18 content date and all five were inside the window. But the class P-004 belongs to *did*
+fire tonight, by a route the proposal does not contemplate. **Two genuine David sessions produced no
+transcript at all** — a Cowork chat on a previously unseen `rcw-` remote surface (which minted
+`ACI-260084` at 09:41 PT and left nothing under `~/Claude/transcripts/`), and a morning of Codex work
+commissioning the `medicare-advantage-document-collection` skill. Discovery is defined over
+transcripts, so neither was discoverable at any pre-filter width. Filed as **ACI-260085**.
+
+This sharpens what P-004 should ask for if it is ever taken up, and the sharpening is the same one
+recorded here on 09-17, now with a second and much costlier instance. **A widened pre-filter is not
+the fix and never was.** The fix is a *declined count reported against an independent enumeration* —
+and tonight demonstrates that the enumeration cannot be the transcript directory either, because the
+failure mode that actually cost something was a session that never reached it. The estate already
+holds a usable independent record: every `Minted-by: … requesting surface:` line in `action-items/`
+and `decisions/` names a session that demonstrably existed. Reconciling that set against transcripts
+produced would have caught tonight's loss on the day, without anyone having to know in advance that
+a surface called `rcw-` existed.
+
+**ACI-260081's Cowork-side silent skip repeated for a fourth consecutive day** (session `7d8d5b6b`;
+census now 168 full-uuid directories : 4 bare; four sessions needing backfill). It stays an item
+rather than a proposal here for the same reason as on 09-15 through 09-17 — a code defect in the
+exporter's discovery glob, not a divergence between this document and a rule. Tonight's addition is
+that the mechanism was confirmed by reading the code rather than inferred: the bare directory fails
+at the **glob** (`"**", "local_*", "audit.jsonl"`), so `CHAT_STEM_RE` is never consulted and the run
+is structurally unable to count its own miss.
+
+No new proposals tonight.
