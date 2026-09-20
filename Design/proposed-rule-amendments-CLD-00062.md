@@ -577,3 +577,22 @@ at the **glob** (`"**", "local_*", "audit.jsonl"`), so `CHAT_STEM_RE` is never c
 is structurally unable to count its own miss.
 
 No new proposals tonight.
+
+## 2026-09-19 — P-002 recurrence (nightly EOD, Code session `b9ca737d`)
+
+**P-002 declined again.** Step 8 of `end-of-day-compaction.md` was not performed; no self-transcript
+was hand-authored under `transcripts/code/`.
+
+Verified in code tonight rather than carried on precedent, since the point of a recurrence note is to
+confirm the divergence still exists:
+
+- `export-code-transcripts.py:246-248` returns `skip-handauthored` for any file it does not own.
+- `grep -n "adopt-handauthored" ~/Claude/Scheduled/nightly/cowork-nightly.sh` returns **nothing** —
+  no chain stage passes the only flag that would let the exporter reclaim such a file.
+
+So the effect of complying with Step 8 is not duplication but **permanent silent suppression** of the
+deterministic reconstruction — the inverse of Step 8's own stated justification ("the deterministic
+exporter is the backstop"). DEC-0076 forbids hand-authoring on that surface and wins.
+
+**Unchanged in substance from every prior recurrence; recorded only to keep the count honest.**
+`memory/processes/` is governance-gated, so this remains proposed and not applied.
