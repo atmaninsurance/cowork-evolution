@@ -596,3 +596,22 @@ exporter is the backstop"). DEC-0076 forbids hand-authoring on that surface and 
 
 **Unchanged in substance from every prior recurrence; recorded only to keep the count honest.**
 `memory/processes/` is governance-gated, so this remains proposed and not applied.
+
+## 2026-09-20 — P-002 recurrence (nightly EOD, Code session `cb7af96b`)
+
+**P-002 declined again.** Step 8 of `end-of-day-compaction.md` was not performed; no self-transcript
+was hand-authored under `transcripts/code/`.
+
+Re-verified in code tonight rather than carried on precedent, since a recurrence note whose only
+content is "same as last time" stops being evidence:
+
+- `export-code-transcripts.py:246-248` returns `skip-handauthored` for any file it does not own.
+- `grep -n "adopt-handauthored" ~/Claude/Scheduled/nightly/cowork-nightly.sh` returns **nothing** —
+  no chain stage passes the only flag that would let the exporter reclaim such a file.
+
+So complying with Step 8 would not duplicate the deterministic reconstruction; it would **suppress it
+permanently and silently**, the inverse of Step 8's own stated justification ("the deterministic
+exporter is the backstop"). DEC-0076 forbids hand-authoring on that surface and wins.
+
+**Unchanged in substance; recorded to keep the count honest.** `memory/processes/` is
+governance-gated, so this remains proposed and not applied. No new proposals tonight.
