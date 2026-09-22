@@ -615,3 +615,75 @@ exporter is the backstop"). DEC-0076 forbids hand-authoring on that surface and 
 
 **Unchanged in substance; recorded to keep the count honest.** `memory/processes/` is
 governance-gated, so this remains proposed and not applied. No new proposals tonight.
+
+## 2026-09-21 — P-005 opened; P-002 recurrence (nightly EOD, Code session `ab1f02a1`)
+
+### P-002 recurrence note
+
+**P-002 declined again.** Step 8 of `end-of-day-compaction.md` was not performed; no self-transcript
+was hand-authored under `transcripts/code/`.
+
+Re-verified in code tonight rather than carried on precedent:
+
+- `export-code-transcripts.py:246-248` returns `skip-handauthored` — *"hand-authored live-transcribe
+  file (use --adopt-handauthored to reconstruct)"* — for any file it does not own.
+- `grep -n "adopt-handauthored" ~/Claude/Scheduled/nightly/cowork-nightly.sh` returns **nothing**, so
+  no chain stage passes the only flag that would let the exporter reclaim such a file.
+
+Complying with Step 8 would therefore **suppress the deterministic reconstruction permanently and
+silently**, the inverse of Step 8's own stated justification. DEC-0076 forbids hand-authoring on that
+surface and wins. Unchanged in substance; recorded to keep the count honest. `memory/processes/` is
+governance-gated, so this remains proposed and not applied.
+
+### P-005 — Step 3's discovery is transcript-only, so a day David spent entirely on another provider's surface reads as a machinery-only day
+
+**The divergence.** `end-of-day-compaction.md` Step 3 defines the day's work list as a union of three
+transcript directories — `transcripts/{cowork,code,dispatch}/` — filtered by content date. Every
+downstream step consumes that list. Step 3a ("No-activity path") then authorises a *placeholder* log
+whose text asserts **"No chat activity today"** on the strength of an empty work list alone.
+
+**Why that is wrong, demonstrated tonight rather than argued.** On 2026-09-21 the work list was empty
+of genuine chats: 25 `code/` transcripts, all machine-spawned, zero human conversations, no Cowork
+`audit.jsonl` anywhere. By Step 3's own test this was a third consecutive machinery-only day. It was
+not. David worked from 11:16 to 17:49 PT — **23 rollouts under `~/.codex/sessions/2026/09/21/`** —
+producing a website draft, an estate skill, a workflow scaffold, a model-runtime fix, and **two new
+estate action items (ACI-260086, ACI-260087)**. None of that surfaces in any directory Step 3 reads,
+because Codex's transcripts are exported to `~/Codex/transcripts/codex/` and its continuity lives in
+`~/Codex/memory/daily/`, both outside the Cowork-me transcript tree by design.
+
+**This is not a new realisation; it is an unrecorded one.** The lesson already exists in auto-memory
+as `check-all-surfaces-before-declaring-a-quiet-day`, and the 2026-09-20 daily log explicitly
+asserted its machinery-only verdict *"on five independent sources rather than on an empty discovery
+list"* — naming `~/.codex/sessions/<date>/` and the Codex daily log among them. So the practice is
+already more rigorous than the process document, on every night that the agent happens to remember
+the auto-memory. **A rule that only fires when a lesson is recalled is not a control.** The cost of
+the miss is not cosmetic: a "no activity today" placeholder written on a day like 2026-09-21 would
+have been a false record of David's most productive day in a fortnight, and the item-index drift
+(two new ACIs) would have gone unremarked until someone noticed.
+
+**Proposed amendment** (three sentences into Step 3, and one guard into Step 3a):
+
+1. Step 3 gains a **cross-surface check** alongside the three transcript globs — at minimum
+   `~/.codex/sessions/<TODAY-in-Pacific>/` and `~/Codex/memory/daily/<TODAY>.md`, plus the count of
+   `The_Estate/action-items/` and `decisions/` files with today's mtime. These are *not* added to the
+   work list and produce **no `## Chat:` sections** — the no-ingestion rule in
+   `The_Estate/instructions/universal.md` is untouched, and another agent's private memory is never
+   read as this agent's continuity. They produce a **pointer line** naming the surface, the session
+   count, the time span and any estate records minted, exactly as tonight's
+   `## Cross-surface — Codex` section does.
+2. Step 3a's no-activity path is **gated on the cross-surface check also being empty.** If any other
+   surface shows activity, the day is not a no-activity day and the placeholder text
+   ("No chat activity today") may not be written.
+3. The placeholder's wording changes from the unqualified **"No chat activity today"** to
+   **"No chat activity on the Cowork/Code/Dispatch surfaces today; cross-surface check clean."**
+   The current sentence claims more than the current procedure can support.
+
+**Scope note.** This is a change to `~/Claude/memory/processes/end-of-day-compaction.md`, which is
+governance-gated, so it is **proposed and not applied**. It asks for no new authority: every source
+named is one EOD already reads on the nights it remembers to, and the amendment only makes the
+reading mandatory and the placeholder honest.
+
+**Related:** P-004 (the other Step 3 discovery defect — an `-mtime` pre-filter defeating the rule it
+feeds; same failure family: a *cheap filter* silently narrowing a *careful test*), ACI-260081 and
+ACI-260085 (both instances of a counter that cannot observe its own miss), ACI-260076, DEC-0069,
+CLD-00062.

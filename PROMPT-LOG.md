@@ -138,4 +138,5 @@ Orchestrator items filed for **cowork-evolution** — pulled from `~/Documents/A
 | OI-000166 | escalated | Undeclared session 3e42e908 — machine-spawned, or a chat owed a write-up? |  |  | 2026-09-11 |  |
 | OI-000167 | escalated | Undeclared session 6a57467e — machine-spawned, or a chat owed a write-up? |  |  | 2026-09-11 |  |
 | OI-000168 | escalated | Undeclared session a83fdd26 — machine-spawned, or a chat owed a write-up? |  |  | 2026-09-11 |  |
+| OI-000172 | escalated | Repair Codex transcript identity and recover affected records |  |  | 2026-09-21 |  |
 <!-- END FILED MIRROR -->
