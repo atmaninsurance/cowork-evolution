@@ -687,3 +687,63 @@ reading mandatory and the placeholder honest.
 feeds; same failure family: a *cheap filter* silently narrowing a *careful test*), ACI-260081 and
 ACI-260085 (both instances of a counter that cannot observe its own miss), ACI-260076, DEC-0069,
 CLD-00062.
+
+## 2026-09-22 — P-005 recurrence (first, and sharper than the opening case); P-002 recurrence (nightly EOD, Code session `6844f7a1`)
+
+### P-005 recurrence note — 2026-09-22
+
+**The proposal was opened last night on a hypothetical harm. Tonight the harm is no longer
+hypothetical, and it is larger than the case that opened the item.**
+
+Step 3's work list tonight was, once again, **empty of genuine chats**: 41 transcripts content-dated
+2026-09-22 in Pacific across `{cowork,code,dispatch}/`, and `_transcript_common.classify_session()`
+returned **`machine-spawned` for all 41** — every one carrying a `[MACHINE-SPAWNED-SESSION: v1 lane=…]`
+marker (lanes: orchestrator, mechanic, designer, reviewer, worker, mechanic-recovery-fable). Zero
+`genuine-chat`, zero `undetermined`, no Cowork `audit.jsonl` anywhere, and `--pending-writeups` empty. By
+Step 3's own test this was a **fourth** consecutive machinery-only day, and Step 3a would have authorised
+a placeholder log reading *"No chat activity today."*
+
+**What Step 3 could not see.** David worked on Codex across three rollouts (11:05, 21:29, 22:22 PT) and
+the day produced, all of it outside every directory Step 3 reads:
+
+- **Fourteen OIs disposed** — OI-000156, 157, 162, 165, 166, 167, 168, 169, 170, 173, 174, 175, 176, 177
+  — and **OI-000171 delivered**. The board moved **57 NEEDS YOU / 18 FAILURES → 53 / 14**.
+- **A new decision, DEC-260147**, and a new action item, **ACI-260089** — i.e. the registry gained a
+  *decision* this time, not just items. Last night's opening case cost two ACIs; tonight it would have
+  been a DEC plus an ACI plus fourteen dispositions.
+- **A direct repair committed** to `Agent_Workflow` (`ee890b6`, REP-1250 front-door parser).
+- **Two KEEP entries written into `~/Claude/Scheduled/nightly/leak-dispositions.json`** — a file inside
+  *Cowork-me's own nightly machinery*, which the `_about` block declares HUMAN-GATED and never written by
+  an unattended run. So the day even modified this lane's own tooling, and Step 3 still could not see it.
+- **Nine of the ten stale OIs driving the staleness-FLAG stream were cleared**, which is the single
+  largest structural change to the ledger's growth curve in weeks (see **ACI-260090**, opened tonight).
+
+**Why this strengthens the proposed amendment rather than merely repeating it.** The opening case could be
+read as "EOD would have under-reported a productive day." Tonight's case is worse in kind: a placeholder
+asserting *"no chat activity"* would have been written **on the same night that nine of the ten items the
+placeholder's own carry-forward had been escalating for two weeks were resolved** — the log would have
+recorded its quietest possible verdict on the day its loudest standing complaint was answered. A record
+that inverts on exactly the days that matter most is not a lossy record; it is a misleading one.
+
+It also answers the "just rely on the auto-memory lesson" objection empirically. The lesson
+(`check-all-surfaces-before-declaring-a-quiet-day`) fired correctly tonight — this note exists because it
+did. But it has now been load-bearing **two nights running**, on both of which the transcript-only rule
+would have produced a false record. A control that has been the sole thing standing between the record and
+a falsehood on two consecutive nights should not remain a memory the agent may or may not recall.
+
+**No change to the amendment text as proposed on 09-21** — the cross-surface check (`~/.codex/sessions/
+<TODAY-Pacific>/`, `~/Codex/memory/daily/<TODAY>.md`, and today's mtimes under `The_Estate/action-items/`
+and `decisions/`) would have caught every item in the list above, and the Step 3a guard would have blocked
+the placeholder. Tonight adds one concrete datum for the "which surfaces" question: the estate
+**`decisions/`** directory earned its place in that list, since this is the first recurrence where a DEC
+was minted. `memory/processes/` is governance-gated, so this remains **proposed and not applied**.
+
+### P-002 recurrence note — 2026-09-22
+
+**P-002 declined again**, on the same verified grounds and not on precedent. Step 8 of
+`end-of-day-compaction.md` was not performed; no self-transcript was hand-authored under
+`transcripts/code/`. `export-code-transcripts.py:246-248` still returns `skip-handauthored` for any file
+it does not own, and `grep -n "adopt-handauthored" ~/Claude/Scheduled/nightly/cowork-nightly.sh` still
+returns nothing, so no chain stage passes the one flag that would let the exporter reclaim such a file.
+Complying with Step 8 would permanently and silently suppress the deterministic reconstruction — the
+inverse of Step 8's own stated justification. DEC-0076 forbids hand-authoring on that surface and wins.
