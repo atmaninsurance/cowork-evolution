@@ -747,3 +747,61 @@ it does not own, and `grep -n "adopt-handauthored" ~/Claude/Scheduled/nightly/co
 returns nothing, so no chain stage passes the one flag that would let the exporter reclaim such a file.
 Complying with Step 8 would permanently and silently suppress the deterministic reconstruction — the
 inverse of Step 8's own stated justification. DEC-0076 forbids hand-authoring on that surface and wins.
+
+---
+
+## 2026-09-23 — P-005 recurrence (second, and it breaks the proposal's own assumption); P-002 recurrence (nightly EOD, Code session `796baca5`)
+
+### P-005 recurrence note — 2026-09-23
+
+**Third consecutive night, and this one widens the proposal rather than merely repeating it.**
+
+The opening case (09-21) and the first recurrence (09-22) both had the same shape: Step 3's
+transcript-only discovery saw nothing while David worked a full day on the Codex surface, and the
+day was recoverable by reading the *other provider's exported transcripts* plus the
+`Minted-by — requesting surface` lines on newly-minted estate records. P-005 as drafted proposes
+exactly that widening.
+
+**Tonight that widening would not have been sufficient, and the reason is worth recording before
+the proposal is ruled on.** All 26 Claude `code/` transcripts content-dated 2026-09-23 classified
+`machine-spawned`; zero genuine chats, as on the two prior nights. David's Codex thread
+`01a0cc86-e8d6-75d0-bcc7-66e6614e6c7b` *is* named on five estate records minted that day
+(DEC-260148, DEC-260149, DEC-260150, ACI-260091, ACI-260092), so the minted-id half of the check
+fired correctly. But **the exported Codex transcript under that id does not contain that thread**:
+ten subagent rollouts from the same parent all carried `session_id = parent_thread_id = 01a0cc86-…`,
+the exporter names output by `session_id`, and the last export overwrote the file with a four-minute
+subagent record (196 lines and zero `gAAAAA` at git HEAD → 154 lines and 5 `gAAAAA` in the working
+tree). A reader following P-005's proposed rule to the other provider's transcript would have
+arrived at a well-formed file describing the wrong session, with nothing announcing the
+substitution.
+
+**Proposed extension to P-005, for the same ruling:** the cross-surface check should name the
+**raw session/rollout store** — `~/.codex/sessions/<YYYY>/<MM>/<DD>/*.jsonl` and the Claude JSONL
+under `~/.claude/projects/` — as a discovery source alongside the exported transcripts, and should
+say plainly that an exporter is a lossy view whose output may be *wrong* rather than merely absent.
+The concrete check is cheap and was what produced tonight's largest finding: count the day's rollout
+files, read each one's `session_meta.payload`, and compare `id` against `session_id`. On 09-23 that
+was 36 rollouts, 10 with `id != session_id`, all ten naming the same parent.
+
+**Note the compounding, which is the actual argument for ruling on this:** the defect that corrupts
+the evidence (ACI-260073) and the discovery rule that relies on that evidence are the same problem
+twice. The night the transcript is wrong is exactly the night the day looks quiet.
+
+Recorded as a proposal only. `end-of-day-compaction.md` Step 3 was followed as written tonight, and
+the day was written up from the shared surfaces instead.
+
+### P-002 recurrence note — 2026-09-23
+
+**P-002 declined again, on grounds re-verified tonight rather than on precedent.** Step 8 of
+`end-of-day-compaction.md` was not performed; no self-transcript was hand-authored under
+`transcripts/code/`. Checked this run: `export-code-transcripts.py:246-248` still returns
+`skip-handauthored` for any file it does not own, and `grep -n 'adopt-handauthored'
+~/Claude/Scheduled/nightly/cowork-nightly.sh` still returns nothing, so no chain stage passes the
+one flag that would let the exporter reclaim such a file. Hand-authoring the file would therefore
+permanently suppress this session's deterministic reconstruction — the inverse of Step 8's own
+stated justification — and DEC-0076 forbids hand-authoring on that surface. The estate's shared
+instructions now say the same thing directly (`instructions/universal.md`: transcript capture is
+machinery-owned, do not create or reconstruct transcripts by hand; `instructions/startup.md`: there
+is no startup transcript duty on this surface), which is a second, independent basis that did not
+exist when P-002 was opened. No transcript for session `796baca5` existed at decision time; the
+Stage-2 exporter owns it.
