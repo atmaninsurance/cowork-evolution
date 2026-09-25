@@ -805,3 +805,69 @@ machinery-owned, do not create or reconstruct transcripts by hand; `instructions
 is no startup transcript duty on this surface), which is a second, independent basis that did not
 exist when P-002 was opened. No transcript for session `796baca5` existed at decision time; the
 Stage-2 exporter owns it.
+
+## 2026-09-24 — P-005 recurrence (third, and it names the missing half of the proposed fix); P-002 recurrence (nightly EOD, Code session `28b500c7`)
+
+### P-005 recurrence note — 2026-09-24
+
+**A surface Step 3 already globs went dark for three days and the procedure could not see it.** The
+first two recurrences were about a surface Step 3 does *not* read (Codex). Tonight's is sharper,
+because the blind spot is inside the three directories it *does* read.
+
+**Measured tonight.** `transcripts/dispatch/` holds no day file for 09-22, 09-23 or 09-24; the newest
+is `dispatch_eb482fe5_2026-09-21.md` (mtime 2026-09-21 17:04), against an unbroken one-file-per-day
+run reaching back past mid-August. `git log -- transcripts/dispatch/` confirms the 09-22 and 09-23
+sweeps touched only `.freshness-status`, so it is not a commit gap. That status file last changed
+**2026-09-23 17:10 PT** and reads `Newest transcript: dispatch_eb482fe5_2026-09-21.md · Staleness:
+48.10 hours · Verdict: STALE` — the surface's own checker called the condition correctly for two days
+and then stopped running as well. `grep -n dispatch ~/Claude/Scheduled/nightly/cowork-nightly.sh`
+returns nothing, so no nightly stage reads that verdict either.
+
+**Why Step 3 is structurally incapable of noticing.** Discovery asks *"which files carry today's
+content date?"* A surface that produces **no file at all** answers that question with silence that is
+identical to the silence of a surface that was simply quiet. The dispatch directory contributed zero
+candidates on 09-22, 09-23 and 09-24, and on each of those nights that was recorded — correctly, and
+uselessly — as "zero dispatch candidates." **A detector whose iteration source is the artifacts the
+pipeline produced cannot report what the pipeline declined to produce.** (The Wiki already carries
+this as the detector-domain dimension of `events-detect-occurrence-timers-detect-absence`, added
+2026-09-19 from a structurally identical incident in the same pipeline. That is the second time this
+exact shape has been written up and the first time it has bitten the *discovery* step itself.)
+
+**The two nights it was missed have a specific cause worth recording, because it is not laziness.**
+The 09-22 and 09-23 daily logs each mention the Dispatch surface exactly once, in a clause dismissing
+a *cosmetic* UTC-vs-PDT drift in `.freshness-status` as "structurally vacuous." Both statements are
+true. The file they dismiss contains, four lines below the drift, a `Verdict:` line that had flipped
+to `STALE`. Reading a small file for the finding you already know about and not for the one you
+don't is how three dark days passed unreported.
+
+**Proposed extension to P-005, for the same ruling** (the amendment as drafted would not have caught
+this): the cross-surface check must be driven by a **roster of expected producers**, not only by
+additional globs. Concretely, add to the amendment's item 1 a fourth source — *for each surface
+directory, the newest file's date and the surface's own freshness artifact if it publishes one* — and
+a rule that a surface which produced a file every day for the preceding N days and produced none
+today is reported as a **named absence**, not as "zero candidates." The distinction the current draft
+misses is that a surface can be *quiet* or *broken*, and only a roster of what should exist
+distinguishes them. This is the same repair ACI-260081 and ACI-260085 already ask for
+(reconciliation against an independently-maintained roster); P-005 should ask for it too rather than
+enumerating three more paths that can each go dark in turn.
+
+**Filed, not applied** — this is an edit to `~/Claude/memory/processes/end-of-day-compaction.md`,
+which is governance-gated. Tonight's run reported the gap in the daily log and recorded it on
+**ACI-260081**; a fourth dark day earns its own id. The cause is genuinely unknown from this host —
+the Cowork scheduler that owns `dispatch-transcript-wake` is not inspectable here, so it is not known
+whether the task failed or was stood down. Only the effect is measured.
+
+### P-002 recurrence note — 2026-09-24
+
+**Declined again; no self-transcript was hand-authored.** Step 8 still instructs EOD to write its own
+transcript to `~/Claude/transcripts/code/<OWN_SESSION_ID>.md`. Two governing texts still say
+otherwise and both were re-read tonight rather than recalled:
+`The_Estate/instructions/universal.md` — *"Transcript capture is machinery-owned. Do not create,
+append, or reconstruct transcripts by hand"* — and `instructions/startup.md` — *"Claude Code
+transcript capture is deterministic (SessionEnd hook plus nightly backstop); there is no startup
+transcript duty."* Verified rather than assumed: `~/.claude/settings.json` line 61 registers a
+`SessionEnd` hook running `~/Claude/Scheduled/nightly/code-session-end-hook.sh` (present, executable),
+and Stage 1's `export-code-transcripts.py` reconstructed 13 machine-spawned `code/` transcripts for
+today from JSONL on this same run. This session is therefore captured twice over without EOD touching
+the file. The proposed amendment is unchanged: replace step 8 with a pointer to the deterministic
+capture. Nothing was written to `transcripts/code/` by this run.
