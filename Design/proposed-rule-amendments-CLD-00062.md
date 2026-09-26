@@ -871,3 +871,59 @@ and Stage 1's `export-code-transcripts.py` reconstructed 13 machine-spawned `cod
 today from JSONL on this same run. This session is therefore captured twice over without EOD touching
 the file. The proposed amendment is unchanged: replace step 8 with a pointer to the deterministic
 capture. Nothing was written to `transcripts/code/` by this run.
+
+---
+
+## 2026-09-25 — P-005 recurrence (fourth, and it now has its own action item); P-002 recurrence (nightly EOD, Code session `b5c0057c`)
+
+### P-005 recurrence note — 2026-09-25
+
+**P-005 stopped being a hypothetical tonight: its condition crossed the threshold the 09-24 log set,
+and ACI-260094 was opened for it.** That makes this the first recurrence note that names a record
+which can act, rather than another measurement of the same silence.
+
+What the fourth night added is a **correction that sharpens the proposed fix**, and it argues for
+widening P-005 slightly. The 09-24 note recorded that the Dispatch surface's own monitor had "stopped
+too." Re-measured tonight from commit history plus mtime, that was wrong: `.freshness-status` was
+rewritten on 09-22 (`24.10 h`), 09-23 (`48.10 h`), **not** 09-24, and **again on 09-25** at 17:10 PT,
+now reading `Staleness: 96.1 hours · Verdict: STALE`. No day file appeared on any of those four days.
+
+So the producer did not stop — **it computes and publishes its own health and does not write its
+deliverable.** This matters for the amendment's design because a roster of expected producers, as
+P-005 currently proposes it, detects a *missing artifact*. That is necessary here and it is not the
+whole signal available: this surface has been **stating its own staleness in a machine-readable file
+for four days** while the chain contains no reference to it at all (`grep -c -i dispatch
+cowork-nightly.sh` = 0). A roster would have caught the absence on 09-22. Reading the verdict the
+surface already publishes would have caught it on 09-22 *with a diagnosis attached*.
+
+**Suggested widening, for the process owner to accept or reject:** where a surface publishes its own
+freshness verdict, the roster entry should name that artifact and the chain should read it, so the
+finding is "the surface says it is 96 hours stale" rather than "a file I expected is not here." The
+narrower roster-only form remains correct and is the fallback for surfaces that publish nothing.
+
+**Filed, not applied** — both the roster and the verdict-reading change are edits to
+`~/Claude/memory/processes/end-of-day-compaction.md` and to `cowork-nightly.sh`, and the process file
+is governance-gated. Tonight's run reported the condition in the daily log and opened **ACI-260094**,
+which carries the measurement, the corrected failure signature and the open question (stood down on
+purpose, or partially failing — unanswerable from this host, since the Cowork scheduler that owns
+`dispatch-transcript-wake` is not inspectable here). **ACI-260081 was updated to hand the surface over**
+and keeps only its original export-path naming defect; the two are different producers with different
+failure modes.
+
+### P-002 recurrence note — 2026-09-25
+
+**Declined again; no self-transcript was hand-authored.** Step 8 of `end-of-day-compaction.md` — and
+item 5 of the Stage-2 launcher prompt — still instruct EOD to write its own transcript to
+`~/Claude/transcripts/code/<OWN_SESSION_ID>.md`. Two governing texts still say otherwise, and both
+were re-read tonight rather than recalled: `The_Estate/instructions/universal.md` — *"Transcript
+capture is machinery-owned. Do not create, append, or reconstruct transcripts by hand"* — and
+`instructions/startup.md` — *"Claude Code transcript capture is deterministic (SessionEnd hook plus
+nightly backstop); there is no startup transcript duty."*
+
+Re-verified on this run rather than carried: `~/.claude/settings.json` registers a `SessionEnd` hook
+running `~/Claude/Scheduled/nightly/code-session-end-hook.sh` (present), and Stage 1 of tonight's chain
+(`1-export-transcripts OK`, 23:00:29) reconstructed today's `code/` transcripts from JSONL — all ten of
+the machine-spawned sessions this run then classified. This session is captured twice over without EOD
+touching the file. The proposed amendment is unchanged: replace step 8 with a pointer to the
+deterministic capture, and drop the corresponding clause from the launcher prompt so the two stop
+disagreeing with the estate instructions. Nothing was written to `transcripts/code/` by this run.
