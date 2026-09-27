@@ -927,3 +927,31 @@ the machine-spawned sessions this run then classified. This session is captured 
 touching the file. The proposed amendment is unchanged: replace step 8 with a pointer to the
 deterministic capture, and drop the corresponding clause from the launcher prompt so the two stop
 disagreeing with the estate instructions. Nothing was written to `transcripts/code/` by this run.
+
+## 2026-09-26 (nightly EOD, Stage 1, session `250cf477`) — Step 8 of `end-of-day-compaction.md` now contradicts `universal.md`
+
+**Proposal, not applied.** EOD's process doc Step 8 instructs the agent to hand-author its own
+transcript to `~/Claude/transcripts/code/<OWN_SESSION_ID>.md`, and tonight's launcher prompt repeats
+that instruction. The shared estate instruction `The_Estate/instructions/universal.md` now says, under
+*Preserve evidence and continuity*: **"Transcript capture is machinery-owned. Do not create, append, or
+reconstruct transcripts by hand."** `The_Estate/instructions/startup.md` agrees — *"Claude Code
+transcript capture is deterministic (SessionEnd hook plus nightly backstop); there is no startup
+transcript duty."*
+
+**The machinery half is verified working, so the duty is not merely redundant — it is a collision
+risk.** `~/.claude/settings.json` registers a `SessionEnd` hook running
+`Scheduled/nightly/code-session-end-hook.sh`, and `logs/session-end-hook.log` shows it firing
+throughout 2026-09-26 (e.g. 21:55:52 PDT, session `49c4d3af`, `export-code-transcripts: 1888 sessions
+— create=1`). A hand-authored file at the same path would be a hand-written record competing with the
+deterministic exporter for the same filename.
+
+**Tonight EOD followed `universal.md` and wrote no self-transcript**, on the reasoning that the shared
+estate instruction is both newer and explicitly worded as a prohibition, while Step 8's own text already
+concedes the exporter is the real mechanism (*"a minimal self-authored capture is sufficient — the
+deterministic exporter is the backstop"*).
+
+**Proposed amendment:** strike Step 8 from `~/Claude/memory/processes/end-of-day-compaction.md` and
+replace it with a pointer stating that EOD's own transcript is produced by the SessionEnd hook and the
+Stage-2 exporter, and that EOD writes none. Also strike the matching line from
+`~/Claude/Scheduled/nightly/eod-prompt.md` (environment delta 5), which currently instructs the same
+hand-authoring. Both are process/machinery documents outside EOD's write scope, so neither was touched.
