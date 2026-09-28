@@ -955,3 +955,31 @@ replace it with a pointer stating that EOD's own transcript is produced by the S
 Stage-2 exporter, and that EOD writes none. Also strike the matching line from
 `~/Claude/Scheduled/nightly/eod-prompt.md` (environment delta 5), which currently instructs the same
 hand-authoring. Both are process/machinery documents outside EOD's write scope, so neither was touched.
+
+## 2026-09-27 (nightly EOD, Stage 1, session `36ff532d`) — third recurrence, and verifying the machinery half found a real defect
+
+**No new proposal — the 2026-09-26 amendment above is unchanged and is restated here only as a recurrence
+count.** Step 8 of `end-of-day-compaction.md` and environment delta 5 of tonight's launcher both still
+instruct EOD to hand-author its own transcript; `universal.md` still prohibits it. EOD followed
+`universal.md` and wrote no self-transcript, the same call on the same reasoning. **Third consecutive run
+in which an agent has had to resolve this collision at 23:00 by reading two documents that disagree** —
+which is the argument for the amendment, independent of which way it is resolved.
+
+**Re-verified on this run rather than carried:** `~/.claude/settings.json` registers the `SessionEnd` hook
+at `Scheduled/nightly/code-session-end-hook.sh` (present); it fired **56 times on 2026-09-27**, most
+recently 21:54:21 with `create=1`; and tonight's `1-export-transcripts OK` (23:00:53) reconstructed the
+day's `code/` transcripts from JSONL — the 62 machine-spawned sessions this run then classified. This
+session is captured twice over without EOD touching the file.
+
+**New, and the reason this note is worth reading:** verifying that machinery half is what surfaced
+**ACI-260096**. The hook is the *primary* capture path and it fails on **1–2% of session closes every
+day** — 24 `rc=1` lines on 09-27 against 56 firings, 41 on 09-26, **586 lifetime** — while
+`export-code-transcripts.py:318-320` captures the exception string into the action dict and the hook logs
+only the action word, so not one of those 586 failures retained a reason. Nothing is lost, because the
+nightly Stage-1 pass silently repairs 6–41 sessions a night; that is precisely what makes it invisible,
+and it means the arrangement this amendment describes as "SessionEnd hook plus nightly backstop" is in
+practice **nightly-primary for a sixth of the sessions that close each day**. That does not change the
+proposed amendment's text, but it does bear on how it should be worded: a pointer saying capture is
+deterministic should not imply the hook alone is sufficient.
+
+Nothing was written to `transcripts/code/` by this run, and no machinery or process file was edited.
